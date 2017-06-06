@@ -431,6 +431,7 @@ app.controller('vistoriaController', function($scope, $routeParams, $http, $loca
 	$scope.idVistoria = $localStorage.vistorias.db[$scope.id].id;
 	$scope.idDonoVistoria = $localStorage.vistorias.db[$scope.id].id_cliente;
     
+   
 	//$scope.idDono = $localStorage.vistorias.db[$scope.id].id_dono;
 	//$scope.nomeCliente = $localStorage.clientes.db[$scope.idDono].nome;
 
@@ -441,6 +442,18 @@ app.controller('vistoriaController', function($scope, $routeParams, $http, $loca
 	$scope.itensVistoriados = {};
     populaVistorias($scope.id_dono);
 
+    //menu
+     $scope.isOpen = false;
+
+      $scope.demo = {
+        isOpen: false,
+        count: 0,
+        selectedDirection: 'left'
+      };
+    
+    
+    
+    
     // Foto principal vistoria
     //$scope.fotoPrincipal = $localStorage.itensVistoriados.db;
     console.log($localStorage);

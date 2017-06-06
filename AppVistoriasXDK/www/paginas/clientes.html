@@ -20,26 +20,7 @@
 <br /> 
 <md-subheader class="md-no-sticky">Todos os clientes</md-subheader>
 
-<md-card class="_md">
-        <img ng-src="img/washedout.png" class="md-card-image" alt="Washed Out" src="img/washedout.png">
-        <md-card-actions layout="row" layout-align="end center" class="layout-align-end-center layout-row">
-          <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Favorite">
-            <md-icon md-svg-icon="img/icons/favorite.svg" class="ng-scope" role="img" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
-    <path d="M0 0h24v24h-24z" fill="none"></path>
-    <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z"></path>
-</svg></md-icon>
-          </button>
-          <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Settings">
-            <md-icon md-svg-icon="img/icons/menu.svg" class="ng-scope" role="img" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 18 18" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
-    <path d="M0 0h18v18h-18z" fill="none"></path>
-    <path d="M2 13.5h14v-1.5h-14v1.5zm0-4h14v-1.5h-14v1.5zm0-5.5v1.5h14v-1.5h-14z"></path>
-</svg></md-icon>
-          </button>
-          <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Share">
-            <md-icon md-svg-icon="img/icons/share-arrow.svg" class="ng-scope" role="img" aria-hidden="true"><svg version="1.1" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><g><g><path fill="#7d7d7d" d="M21,11l-7-7v4C7,9,4,14,3,19c2.5-3.5,6-5.1,11-5.1V18L21,11z"></path><rect fill="none" width="24" height="24"></rect></g></g></svg></md-icon>
-          </button>
-        </md-card-actions>
-      </md-card>
+
 
 
 <md-list-item ng-repeat="person in lerClientes()" ng-click="verVistorias(person.id)" class="noright">

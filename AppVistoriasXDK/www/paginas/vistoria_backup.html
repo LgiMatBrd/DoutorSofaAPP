@@ -1,128 +1,87 @@
+
+
 <md-toolbar style="position: fixed !important;">
     <div class="md-toolbar-tools">
         <!--<a href back-button style="margin-right: 10px;"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>-->
         <md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>
-        <h2><span>Doutor Sofá</span></h2>
+        <h2><span>SeyService</span></h2>
     </div>
 </md-toolbar>
 
-<div style="background-color: #e2e2e2;">
+<br />
+<br />
+<br />
+<br />
+<md-subheader class="md-no-sticky">Vistoria <strong>{{nomeVistoria}}</strong><!-- ID: {{idVistoria}}--></md-subheader>
 
+<md-list-item ng-repeat="person in itensVistoriados" ng-click="" class="noright">
     
-    <div style="padding: 40px"></div>
-<md-subheader class="md-no-sticky">Lista de serviços</md-subheader>
-<div style="padding: 0px 20px">
-<h3 class="md-display-1" class="md-no-sticky" style="margin-bottom: 0px;">Hoje</h3>
-<span class="md-body-1" style="font-size: 12px; opacity: .75;">Serviços agendados: 3</span><br>
-<span class="md-body-1" style="font-size: 12px; opacity: .75;">Faturamento agendado: R$ 1.800,00</span>
-</div>
-<div style="padding: 20px;"></div>
-    
-    <md-list-item ng-repeat="person in itensVistoriados" ng-click="" class="noright">
-    <md-card class="_md" style="width: 100%;">
+    <md-card class="_md">
 <!--        <img ng-src="img/washedout.png" class="md-card-image" alt="Washed Out" src="img/washedout.png">-->
-         <md-card-content>
-          <span style="font-size: 10px; float: left;">
-            13h30
-          </span>
-        <span style="font-size: 10px; float: right;">
-            06/06/2017
-          </span>
-        </md-card-content>
         <md-card-title>
-          <md-card-title-text style="text-align: center;">
-            <span class="md-headline">Título do serviço</span>
-              <span class="md-subhead" style="text-style: italic; opacity: .75;">Cartão - à vista - R$ 180,00</span>
-              <span class="md-subhead" style="text-style: italic; opacity: .75;">Rua Fictícia, 2000 - Bairro Vila Nova</span>
+          <md-card-title-text>
+            <span class="md-headline">Vistoria de {{nomeClienteDono}}</span>
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="start center" class="layout-align-start-center layout-row">
           <md-card-icon-actions>
             <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Favorite">
-              <i class="material-icons">place</i>
+              <md-icon md-svg-icon="img/icons/favorite.svg" class="ng-scope" role="img" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <path d="M0 0h24v24h-24z" fill="none"></path>
+    <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z"></path>
+</svg></md-icon>
             </button>
-            <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Share">
-              <i class="material-icons">menu</i>
+            <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Share">
+              <md-icon md-svg-icon="img/icons/share-arrow.svg" class="ng-scope" role="img" aria-hidden="true"><svg version="1.1" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><g><g><path fill="#7d7d7d" d="M21,11l-7-7v4C7,9,4,14,3,19c2.5-3.5,6-5.1,11-5.1V18L21,11z"></path><rect fill="none" width="24" height="24"></rect></g></g></svg></md-icon>
             </button>
-          </md-card-icon-actions>    
-<!--          <button class="md-button md-ink-ripple" type="button" ng-transclude=""><span class="ng-scope">Serviço</span><div class="md-ripple-container" style=""></div></button>-->
-            
-             <md-fab-toolbar md-open="demo.isOpen" count="demo.count"
-                  md-direction="{{demo.selectedDirection}}">
-    <md-fab-trigger class="align-with-text">
-      <md-button aria-label="menu" class="md-fab md-primary">
-        <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
-      </md-button>
-    </md-fab-trigger>
-
-    <md-toolbar>
-      <md-fab-actions class="md-toolbar-tools">
-        <md-button aria-label="comment" class="md-icon-button">
-          <md-icon md-svg-src="img/icons/ic_comment_24px.svg"></md-icon>
-        </md-button>
-        <md-button aria-label="label" class="md-icon-button">
-          <md-icon md-svg-src="img/icons/ic_label_24px.svg"></md-icon>
-        </md-button>
-        <md-button aria-label="photo" class="md-icon-button">
-          <md-icon md-svg-src="img/icons/ic_photo_24px.svg"></md-icon>
-        </md-button>
-      </md-fab-actions>
-    </md-toolbar>
-  </md-fab-toolbar>
-            
-            <style>
-            .fabToolbardemoBasicUsage md-fab-toolbar.md-right md-fab-trigger.align-with-text {
-  left: 7px; }
-            </style>
-            <md-fab-toolbar md-direction="left">
-  <md-fab-trigger>
-    <md-button aria-label="Add..."><md-icon md-svg-src="/img/icons/plus.svg"></md-icon></md-button>
-  </md-fab-trigger>
-
-  <md-toolbar>
-   <md-fab-actions>
-     <md-button aria-label="Add User">
-       <md-icon md-svg-src="/img/icons/user.svg"></md-icon>
-     </md-button>
-
-     <md-button aria-label="Add Group">
-       <md-icon md-svg-src="/img/icons/group.svg"></md-icon>
-     </md-button>
-   </md-fab-actions>
-  </md-toolbar>
-</md-fab-toolbar>
+          </md-card-icon-actions>
+          <button class="md-button md-ink-ripple" type="button" ng-transclude=""><span class="ng-scope">Action 1</span><div class="md-ripple-container" style=""></div></button>
+          <button class="md-button md-ink-ripple" type="button" ng-transclude=""><span class="ng-scope">Action 2</span><div class="md-ripple-container" style=""></div></button>
         </md-card-actions>
-        
-        
-        <md-card-content ng-show="row.booleanVal" >
+        <md-card-content>
           <p>
-            Observações do serviço
+            Descrição do serviço
           </p>
-            <div class="itensServico"> <!--isso aqui deve aparecer só quando o usuário clica no botão "menu", dentro do cartão do serviço.-->
-                <div style="padding: 10px"></div>
-                <table style="width: 100%; font-size: 12px;">
-                    <tr>
-                        <td>Limpeza Sofá 3 lugares</td>
-                        <td>R$ 100,00</td>
-                    </tr>
-                    <tr>
-                        <td>Limpeza Sofá 2 lugares</td>
-                        <td>R$ 80,00</td>
-                    </tr>
-                </table>
-            </div>
         </md-card-content>
       </md-card>
     
-
+<md-card style="width: 100% !important;" class="_md">
+    <md-card-header>
+        <md-card-avatar> 
+            <img class="md-user-avatar" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAxxJREFUeNpi/P//PwO9ABMDHcGoZaOWjVo2zCxjQeM/eP5+w6FrGw9dg3ANVCX97bQcjJSoYhkjctk4YeXRxjl7Pnz9yQgEDAxACZDs//8Bdlrza0MFeDioZlnDnD2Nc/cyMTPzsLJwMTMxM4Gkvv/99+XP39+//wC9uH9aGoX2QePswLl7QJuYWZhFOdjEOdnEuDnEuDiApAQXuzgHGwcb64XbzyesOEKdBDJx5VFgyPGzsgqwswpwsgtycQjxcApyc/JzcghwsAmzsTAzMwPVfPjygwqWARMF0DhTlVe2eo/0VV7x83AK8XIJ8HDycbJxs7FysbJwsDADbQIGAKkWLNh61jF7NsSVLJAUCCR7UncluV2+/Vjq/UexuRs0WViYgXH29++/b79+szIzsTExfmVkvHDrGTCxkGTZwfP3gbogkQ2yDGJtvOulz984J6wIePNW2dfuSLzPcqAgF8c3IFk5PZiN/auhxr2JmxUVg7qAjgOmF2B+ALoaqLcg3BqSkoGCwKhd3xkL5BZO2PLh83egGpBiNSlEMAIVgaRnukiJvJ9WOi3CfXNmyNzX70WAgjuPm335xulofC3V58TGY6rAYAS68f3u+nhvY6DpQHPrk52BDKAdQMX1KS6Q6A8sXwxUJsDLqSApCJSyN1REydQJXsoLtzO+fie8pWVhnPd2oMjcjW5Aj564qtiW9dXN7OqBS3ILduvCTXwIDnmgw4E+AJoIdESCtzFyxsgPtwZaBhQB+RjZZ0DQn6fzb0f7lNwNn75yNC/wAoqUxS1typgtIXb/0j3xD184Enu8IcYBTVcM7ISEvGHcJGAoxXsZAdlA50OSD4QLzEiJzasXbjsHDzmUTL1g89qFW9YduqoIzNSqEh+FeH5efSAR4nC+OPyAf0MQA5P+1EKfT1++A4PFwRBUev1jYDh0/h6EDQdABUCSh4cT6AglSUGIoJaqJB8PJ4HiSl/ppb/lzQ3H1BSkHYDF1eT5u3lhASUjIfjkxXugERDT4eDzlx9ANWjiIZ4mQPXoltG1IB6tPEctG7Vs1LLBaxlAgAEA3yFhlrpuChQAAAAASUVORK5CYII=" /> 
+        </md-card-avatar>
+        <md-card-header-text>
+            <span style="margin-top: -7px;" class="md-title">Vistoria de {{nomeClienteDono}}</span>
+            <span style="line-height: 15px; font-size: 12px;" class="md-subhead">{{tiposVistorias[person.dados.nome] ? tiposVistorias[person.dados.nome] : 'Sem nome'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+	<!--<img ng-src="data:image/png;base64,{{person.fotos64[0]}}" class="md-card-image" alt="Teste 1" src="data:image/png;base64,{{person.fotos64[0]}}">-->
+	
+    <!-- Imagem antiga: https://material.angularjs.org/latest/img/washedout.png -->
+    <md-card-title id="fundo_card_destaque" style="">
+        <md-card-title-text>
+            <span class="md-headline" style="font-size: 13px;" style="text-align:center !important;">
+                <!--<i style="color: {{person.dados.item_aprovado | iif : 'green' : 'red'}} !important;" class="material-icons">{{person.dados.item_aprovado | iif : 'done' : 'close'}}</i>-->
+                <i style="color: {{person.dados.item_aprovado | iif : '#11c711' : 'red'}} !important; font-weight: 800 !important;font-size: 45px;margin-top: -13px;margin-bottom: -7px;" class="material-icons ng-binding">{{person.dados.item_aprovado | iif : 'done' : 'close'}}</i>
+                <strong style="text-align:center !important; font-size: 30px; font-weight: 500 !important; color: #fff; position: absolute; margin-left: 3%; margin-top: -1%;">{{person.dados.item_aprovado | iif : "APROVADO" : "REPROVADO"}}</strong>
+                <!--<strong style="text-align:center !important; font-size: 30px; font-weight: 200 !important; color: #464646;">{{person.dados.item_aprovado | iif : "APROVADO" : "REPROVADO"}}</strong>-->
+            </span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="center center" class="layout-align-center center layout-row">
+        <!--<md-button ng-click="verVistoria(id)" sclass="md-raised md-primary">Ver</md-button>-->
+        <md-button style="width: 50% !important;" ng-click="showAdvanced($event,person.id)" sclass="md-raised md-primary">Ver</md-button>
+        <md-button style="width: 50% !important;" ng-click="deletarVistoria(person.id)" sclass="md-raised md-primary">Deletar</md-button>
+        
+        <!--<md-button ng-click="deletarVistoria(id)" sclass="md-raised md-primary">Deletar</md-button>-->
+	</md-card-actions>
+</md-card>
 </md-list-item>
-</div>
 
 
-
-
-
-
+<!--<md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdvanced($event)" style="background-color: #1364b4;">
+    <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
+</md-button>-->
 <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdvanced($event, -1)" style="background-color: #1364b4; position: fixed !important;">
         <i class="material-icons">add</i>
 </md-button> 
@@ -132,7 +91,7 @@
 <md-toolbar>
 <div class="md-toolbar-tools">
         <md-button><i ng-click="cancel()" class="material-icons">keyboard_arrow_left</i></md-button>
-  <h2 flex="flex">Adicionar serviço</h2>
+  <h2 flex="flex">Adicionar vistoria</h2>
 </div>
 </md-toolbar>
 <md-content layout-padding="">
@@ -148,7 +107,10 @@
       
       <input type="hidden" name="EdicaoID" ng-model="item.EdicaoID" />
       
-   
+      <!-- 
+      <pre>Dados captados:</pre>
+      <pre>item = {{item | json}}</pre>
+      -->
       <!-- FORMULÁRIO 1 -->
       <!-- Linga de corrente (NR-11/NBR 15516 1 e 2/NBR ISO 3076/NBR ISO 1834) -->
 	  <md-input-container ng-show="item.nome=='linc'" class="md-block" flex-gt-sm="" required>
@@ -645,6 +607,12 @@
   <md-button style="width: 50% !important;" ng-click="addItem(itemForm)" class="md-primary"> Adicionar </md-button>
 </md-dialog-actions>
 </md-content>
-
+<!--
+<md-dialog-actions layout="row">
+  <span flex></span> 
+  <md-button style="width: 50% !important;" ng-click="cancel()"> Cancelar </md-button>
+  <md-button style="width: 50% !important;" ng-click="addItem(itemForm)" class="md-primary"> Adicionar </md-button>
+</md-dialog-actions>
+-->
 </md-dialog>
 </script>
