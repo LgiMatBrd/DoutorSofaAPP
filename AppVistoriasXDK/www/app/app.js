@@ -5,7 +5,7 @@ var app = angular.module('seyconelApp', ['ngRoute','ngStorage','ngMaterial','ngM
 app.config(function($routeProvider,$mdIconProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "paginas/vistoria.html",
+        templateUrl : "paginas/home.html",
 		controller  : 'homeController'
     })
     .otherwise({
@@ -66,6 +66,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
 	$scope.nomeVistoria = $localStorage.vistorias.db[$scope.id].nome;
 	$scope.idVistoria = $localStorage.vistorias.db[$scope.id].id;
 	$scope.idDonoVistoria = $localStorage.vistorias.db[$scope.id].id_cliente;
+    $scope.currentNavItem = 'page1';
     
    
 	//$scope.idDono = $localStorage.vistorias.db[$scope.id].id_dono;
