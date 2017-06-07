@@ -4,9 +4,13 @@ var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','n
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
 app.config(function($routeProvider,$mdIconProvider) {
     $routeProvider
-    .when("/", {
+    .when("/home", {
         templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
+    })
+    .when("/", {
+        templateUrl : "paginas/login.html",
+		controller  : 'loginController'
     })
     .otherwise({
        redirectTo: '/'
@@ -57,6 +61,50 @@ app.run(function($localStorage) {
             db: {}
         }; 
     }
+});
+
+// CONTROLLER PÁGINA DE LOGIN
+app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog) {
+    $scope.user = {
+        email: '',
+    };
+    
+    $scope.user.submit = function(user) {
+        $location.path('/home').replace();        
+    }
+    
+    /*$scope.user.submit = function(user)
+    {
+        var p = hex_sha512(user.password);
+        $http({
+            method: 'POST',
+            url: 'http://app.seyconel.com.br/apps/makelogin.php',
+            data: {
+                makelogin: 'true',
+                username: user.username,
+                password: '',
+                p: p
+            }
+        })
+        .then(function successCallback(response)
+        {
+            console.log(response);
+            if (response.data.status == "ok")
+            {
+                if (response.data.logged === 'in')
+                    $location.path('/sincronizar').replace();
+                else
+                    $scope.msg = response.data.msg;
+            }
+            else if (response.data.status == "error")
+            {
+                $scope.msg = "Não foi possível logar! "+response.data.msg;
+            }
+            
+        }, function errorCallback(response){
+            $scope.msg = "Ocorreu um problema ao efetuar login: "+response.statusText;
+        });
+    }*/
 });
 
 // CONTROLLER DA PÁGINA INICIAL
