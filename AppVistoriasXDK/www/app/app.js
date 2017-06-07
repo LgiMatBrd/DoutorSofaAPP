@@ -1,11 +1,11 @@
-// INICIAL O APLICATIVO
-var app = angular.module('seyconelApp', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
+// INICIA O APLICATIVO
+var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
 
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
 app.config(function($routeProvider,$mdIconProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "paginas/home.html",
+        templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
     })
     .otherwise({
@@ -61,40 +61,26 @@ app.run(function($localStorage) {
 
 // CONTROLLER DA PÁGINA INICIAL
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog) {    
-    $scope.id_dono = '0';
-	$scope.id = '0';
-	$scope.nomeVistoria = $localStorage.vistorias.db[$scope.id].nome;
-	$scope.idVistoria = $localStorage.vistorias.db[$scope.id].id;
-	$scope.idDonoVistoria = $localStorage.vistorias.db[$scope.id].id_cliente;
-    $scope.currentNavItem = 'page1';
+ 
+	$scope.servicos = {
+        foo: 'a',
+        fob: 'c',
+        fof: 'd',
+        for: 'e',
+        bar: 'b'
+    };
     
-   
-	//$scope.idDono = $localStorage.vistorias.db[$scope.id].id_dono;
-	//$scope.nomeCliente = $localStorage.clientes.db[$scope.idDono].nome;
-
-	$scope.nomeClienteDono = $localStorage.clientes.db[$scope.idDonoVistoria].nome;
-	$scope.NextID = $localStorage.itensVistoriados.nextID;
+    $scope.tiposServicos = {
+        'linc': 'Limpeza completa 1',
+        'ectu': 'Limpeza completa 2',
+        'aces': 'Limpeza completa 3',
+        'gael': 'Limpeza completa 4',
+        'lema': 'Limpeza completa 5',
+        'dies': 'Limpeza completa 6',
+        'lila': 'Limpeza completa 7',
+    };
     
-    // chama a função para preencher a variável que armazena as vistorias desse cliente
-	$scope.itensVistoriados = {};
-    populaVistorias($scope.id_dono);
-
-    //menu
-     $scope.isOpen = false;
-
-      $scope.demo = {
-        isOpen: false,
-        count: 0,
-        selectedDirection: 'left'
-      };
-    
-    
-    
-    
-    // Foto principal vistoria
-    //$scope.fotoPrincipal = $localStorage.itensVistoriados.db;
-    console.log($localStorage);
-    
+    // CONTROLA A TELA DOS FORMULÁRIOS
     $scope.showAdvanced = function(ev,id_click) {
         $mdDialog
             .show({
@@ -114,6 +100,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             });
     };
 
+    // CONTROLLER TELA DOS FORMULÁRIOS
     function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera) {
         $scope.myPictures = [];
         // Verifica se o usuário quer editar o item.
@@ -219,80 +206,6 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             $mdDialog.cancel();
         };
     }
-
-    // ler vistorias
-    // popula a variavel $scope.vistorias
-    function populaVistorias($id_dono)
-    {  
-        var db = $localStorage.itensVistoriados.db;
-        $scope.itensVistoriados = {};
-        
-        for (var vist_key in db)
-        {
-            if (db.hasOwnProperty(vist_key))
-            {
-                if (db[vist_key].id_vistoria == $id_dono)
-                    $scope.itensVistoriados[vist_key] = Object.create(db[vist_key]);
-            }
-        }
-    }
-        
-    // botão de voltar
-    $scope.goBack = function() {
-        window.history.back();
-    };
-    
-    // ver vistoria
-    $scope.verVistoria = function (id) {
-        $location.path('/vistoria/' + id);
-    };
-
-    // ler vistorias
-    $scope.lerVistorias = function ($id_dono) 
-    {
-        var resultado = {};
-        var db = $localStorage.vistorias.db; 
-        
-        for (var vist_key in db)
-        {
-            if (db.hasOwnProperty(vist_key))
-            {
-                if (db[vist_key].id_cliente == $id_dono)
-                    resultado[vist_key] = Object.create(db[vist_key]);
-            }
-        }
-        
-        return resultado;
-    };
-   
-    // deletar vistoria
-    $scope.deletarVistoria = function ($id)
-    {
-        // Verifica se a row local já foi sincronizada alguma vez
-        if ($localStorage.itensVistoriados.db[$id].idext)
-        {
-            // Já foi sincronizada, marca a row externa para ser apagada!
-            var deleteSync = {
-                        idext: $localStorage.itensVistoriados.db[$id].idext
-                    };
-            if ($localStorage.itensVistoriados.db[$id].dados && $localStorage.itensVistoriados.db[$id].dados.nome)
-                deleteSync.nome = $localStorage.itensVistoriados.db[$id].dados.nome;
-            $localStorage.itensVistoriados.remoteDelete.push(deleteSync);
-        }
-        
-        delete $localStorage.itensVistoriados.db[$id]; 
-        populaVistorias($scope.id);
-    };
-    
-    $scope.tiposVistorias = {
-        'linc': 'Linga de corrente (NR-11/NBR 15516 1 e 2/NBR ISO 3076/NBR ISO 1834)',
-        'ectu': 'Eslingas, cintas planas e tubulares. (NR-11 NBR 15637 1 e 2)',
-        'aces': 'Acessórios  (Ganchos, Cadeados, olhais, Manilhas) (NR-11/NBR 13545/NBR 16798)',
-        'gael': 'Garras de elevação  (NR-11)',
-        'lema': 'Levantador magnético  (NR 11)',
-        'dies': 'Dispositivos Especiais: (NR 11)',
-        'lila': 'Lingas e Laços de cabos de aço'
-    };
     
 });
 

@@ -18,7 +18,7 @@
             <div style="padding: 20px;"></div>
 
             <div flex-xs="" flex-gt-xs="50" layout="column" class="layout-column flex-xs flex-gt-xs-50">
-              <md-card class="_md noright" ng-repeat="person in itensVistoriados" ng-click="">
+              <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">
                 <md-card-header>
                   <md-card-avatar>
                     <md-icon class="md-avatar-icon" md-svg-icon="img/icons/menu.svg" role="img" aria-label="img/icons/menu.svg">
@@ -42,11 +42,11 @@
                 </md-card-title>
                 <md-card-actions layout="row" layout-align="start center" class="layout-align-start-center layout-row">
                   <md-card-icon-actions>
-                    <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Favorite">
+                    <button class="md-icon-button md-button md-ink-ripple" type="button">
                     <i class="material-icons">place</i>
                     </button>
                   </md-card-icon-actions>
-                  <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" aria-label="Share" style="float: right !important;">
+                  <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button">
                   <i class="material-icons">menu</i>
                   </button>
                 </md-card-actions>
