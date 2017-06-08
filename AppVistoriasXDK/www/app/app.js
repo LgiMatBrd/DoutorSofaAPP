@@ -8,6 +8,18 @@ app.config(function($routeProvider,$mdIconProvider) {
         templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
     })
+    .when("/teste", {
+        templateUrl : "paginas/teste.html", 
+		controller  : 'testeController'
+    })
+    .when("/cancelados", {
+        templateUrl : "paginas/cancelados.html", 
+		controller  : 'canceladosController'
+    })
+    .when("/realizados", {
+        templateUrl : "paginas/realizados.html", 
+		controller  : 'realizadosController'
+    })
     .when("/", {
         templateUrl : "paginas/login.html",
 		controller  : 'loginController'
@@ -107,11 +119,43 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
     }*/
 });
 
-// CONTROLLER DA PÁGINA INICIAL
-app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog) {    
- 
+// CONTROLLER DOS SERVIÇOS REALIZADOS
+app.controller('realizadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+    $scope.go = function ( path ) {
+      $location.path( path );
+    };
+    
+    $scope.titulo = 'Realizados';
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-scale';
+    $scope.selectedDirection = 'up';
+
+});
+
+// CONTROLLER DOS SERVIÇOS CANCELADOS
+app.controller('canceladosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+    $scope.go = function ( path ) {
+      $location.path( path );
+    };
+    
+    $scope.titulo = 'Cancelados';
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-scale';
+    $scope.selectedDirection = 'up';
+
+});
+
+app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+    $scope.go = function ( path ) {
+      $location.path( path );
+    };
+    
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-scale';
+    $scope.selectedDirection = 'up';
+    
 	$scope.servicos = {
-        foo: 'a',
+        foo: 'a', 
         fob: 'c',
         fof: 'd',
         for: 'e',

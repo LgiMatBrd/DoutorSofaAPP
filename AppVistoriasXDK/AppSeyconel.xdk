@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "82606458-0726-45b5-b3d1-bea1407cd611",
-      "lastModifiedDate": 1493329072996,
+      "lastModifiedDate": 1496863840449,
       "creationDate": 1488809141554
     },
     "XDK-app-designer": "false",
@@ -156,9 +156,9 @@
           "android-signed": true
         },
         "isActive_": true,
-        "certificateId_": "",
-        "appName_": "AppSeyconel",
-        "appID_": "seyconel.vistorias.app",
+        "certificateId_": "WN954LLJv0Oo3AABAriLWA2",
+        "appName_": "Doutor Sofá",
+        "appID_": "doutor.sofa.app",
         "appAccess_": {
           "mode": "whitelist",
           "network": [
@@ -173,7 +173,8 @@
             "geo:*",
             "market:*"
           ],
-          "navigation": []
+          "navigation": [],
+          "properties": {}
         },
         "icons_": [
           {
@@ -263,10 +264,10 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "6.2.0",
         "crosswalkVersion_": "19",
-        "appVersion_": "0.0.3",
-        "appDescription_": "Aplicativo para controle de vistorias Seyconel.",
+        "appVersion_": "0.0.1",
+        "appDescription_": "Aplicativo para controle de serviços Doutor Sofá",
         "appAuthor_": "Luigi Matheus Afornalli Breda",
-        "appVersionCode_": "4",
+        "appVersionCode_": "1",
         "signed_": true
       },
       "iOS": {
@@ -279,8 +280,8 @@
         },
         "isActive_": true,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
-        "appID_": "seyconel.vistorias.app",
+        "appName_": "Doutor Sofá",
+        "appID_": "doutor.sofa.app",
         "appAccess_": {
           "mode": "whitelist",
           "network": [
@@ -308,7 +309,7 @@
         "appAuthor_": "Luigi Matheus Afornalli Breda",
         "crosswalkVersion_": "19",
         "appVersion_": "0.0.1",
-        "appDescription_": "Aplicativo para controle de vistorias Seyconel."
+        "appDescription_": "Aplicativo para controle de serviços Doutor Sofá"
       },
       "Windows8": {
         "platform_": "windows8",
