@@ -129,6 +129,151 @@ app.controller('realizadosController', function($scope, $routeParams, $http, $lo
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'up';
+    
+	$scope.servicos = {
+        foo: 'a', 
+        fob: 'c',
+        fof: 'd',
+        for: 'e',
+        bar: 'b'
+    };
+    
+    $scope.tiposServicos = {
+        'linc': 'Limpeza completa 1',
+        'ectu': 'Limpeza completa 2',
+        'aces': 'Limpeza completa 3',
+        'gael': 'Limpeza completa 4',
+        'lema': 'Limpeza completa 5',
+        'dies': 'Limpeza completa 6',
+        'lila': 'Limpeza completa 7',
+    };
+    
+    // CONTROLA A TELA DOS FORMULÁRIOS
+    $scope.showAdvanced = function(ev,id_click) {
+        $mdDialog
+            .show({
+            controller: DialogController,
+            templateUrl: 'formulario-vistoria.tmpl.html',
+            id_dono: $scope.id_dono,
+            id_click: id_click,
+            locals: {
+                tiposVistorias: $scope.tiposVistorias
+            },
+            bindToController: true,
+            onRemoving: function() { populaVistorias($scope.id_dono); },
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen
+            });
+    };
+
+    // CONTROLLER TELA DOS FORMULÁRIOS
+    function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera) {
+        $scope.myPictures = [];
+        // Verifica se o usuário quer editar o item.
+        if (id_click > -1)
+        {
+            $scope.item = {};
+            $scope.item = $localStorage.itensVistoriados.db[id_click].dados;
+            $scope.myPictures = $localStorage.itensVistoriados.db[id_click].fotos64;
+            
+            // Pega os valores booleanos que estão em string e coverte novamente.
+            angular.forEach($scope.item, function(value, key) {
+                //console.log(key + ': ' + value);
+                if (value == "true") {
+                    $scope.item[key] = true;
+                }
+            });
+            
+        } else {
+            console.log('Nenhum item para ser editado, abrindo tela de adiconar novo item...');
+        }
+        
+        $scope.$watch('myPicture', function(value) {
+            if (value) {
+                $scope.myPictures.push(value);
+            }
+        }, true);
+        
+        $scope.takePicture = function()
+        {
+            
+            var options = {
+              quality: 50,
+              destinationType: Camera.DestinationType.DATA_URL,
+              sourceType: Camera.PictureSourceType.CAMERA,
+              allowEdit: false,
+              encodingType: Camera.EncodingType.JPEG,
+              mediaType: Camera.MediaType.PICTURE,
+              targetWidth: 1024,
+              targetHeight: 768,
+              popoverOptions: CameraPopoverOptions,
+              saveToPhotoAlbum: false,
+              correctOrientation: false
+            };
+            $cordovaCamera.getPicture(options).then(function(data) {
+                 $scope.myPicture = data;
+
+            }, function(err) {
+                 console.log(err);
+            });
+        
+        }
+
+        $scope.tiposVistorias = tiposVistorias;
+        $scope.addItem = function(itemForm) {
+            
+            // Verifica se os Form é de edição ou de adição de novo Item
+            if (id_click > -1) {
+                // Edita o item
+                id = id_click;
+                $localStorage.itensVistoriados.db[id].dados = $scope.item;
+                $localStorage.itensVistoriados.db[id].fotos64 = $scope.myPictures;
+                $localStorage.itensVistoriados.db[id].modificado = timestampUTC();
+                
+                $mdDialog.hide();
+            } else {
+                id = $localStorage.itensVistoriados.nextID;
+
+                /* OBJETO
+                this.id = 0;
+                this.id_dono = '';
+                this.data_criacao = '';
+                this.dados = '';
+                */
+                item = new itemVitoriado(); 
+                item.id = id;
+                item.id_vistoria = id_dono;
+                item.data_criacao = timestampUTC();
+                item.modificado = item.data_criacao;
+                
+                item.fotos64 = $scope.myPictures;
+                item.dados = $scope.item;
+
+                $localStorage.itensVistoriados.db[id] = item;
+
+                id = id + 1; 
+                $localStorage.itensVistoriados.nextID = id;
+                
+                $mdDialog.hide();
+            }
+
+        };
+        
+        $scope.capturePhotoWithFile = function ()
+        {
+            navigator.camera.getPicture(function (imageData) {
+                imgView = imageData;
+            }, function (msg) {
+                console.log(msg);
+            }, { quality: 50, destinationType: Camera.DestinationType.DATA_URL });
+        }
+        
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+    }
 
 });
 
@@ -142,6 +287,151 @@ app.controller('canceladosController', function($scope, $routeParams, $http, $lo
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'up';
+    
+	$scope.servicos = {
+        foo: 'a', 
+        fob: 'c',
+        fof: 'd',
+        for: 'e',
+        bar: 'b'
+    };
+    
+    $scope.tiposServicos = {
+        'linc': 'Limpeza completa 1',
+        'ectu': 'Limpeza completa 2',
+        'aces': 'Limpeza completa 3',
+        'gael': 'Limpeza completa 4',
+        'lema': 'Limpeza completa 5',
+        'dies': 'Limpeza completa 6',
+        'lila': 'Limpeza completa 7',
+    };
+    
+    // CONTROLA A TELA DOS FORMULÁRIOS
+    $scope.showAdvanced = function(ev,id_click) {
+        $mdDialog
+            .show({
+            controller: DialogController,
+            templateUrl: 'formulario-vistoria.tmpl.html',
+            id_dono: $scope.id_dono,
+            id_click: id_click,
+            locals: {
+                tiposVistorias: $scope.tiposVistorias
+            },
+            bindToController: true,
+            onRemoving: function() { populaVistorias($scope.id_dono); },
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen
+            });
+    };
+
+    // CONTROLLER TELA DOS FORMULÁRIOS
+    function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera) {
+        $scope.myPictures = [];
+        // Verifica se o usuário quer editar o item.
+        if (id_click > -1)
+        {
+            $scope.item = {};
+            $scope.item = $localStorage.itensVistoriados.db[id_click].dados;
+            $scope.myPictures = $localStorage.itensVistoriados.db[id_click].fotos64;
+            
+            // Pega os valores booleanos que estão em string e coverte novamente.
+            angular.forEach($scope.item, function(value, key) {
+                //console.log(key + ': ' + value);
+                if (value == "true") {
+                    $scope.item[key] = true;
+                }
+            });
+            
+        } else {
+            console.log('Nenhum item para ser editado, abrindo tela de adiconar novo item...');
+        }
+        
+        $scope.$watch('myPicture', function(value) {
+            if (value) {
+                $scope.myPictures.push(value);
+            }
+        }, true);
+        
+        $scope.takePicture = function()
+        {
+            
+            var options = {
+              quality: 50,
+              destinationType: Camera.DestinationType.DATA_URL,
+              sourceType: Camera.PictureSourceType.CAMERA,
+              allowEdit: false,
+              encodingType: Camera.EncodingType.JPEG,
+              mediaType: Camera.MediaType.PICTURE,
+              targetWidth: 1024,
+              targetHeight: 768,
+              popoverOptions: CameraPopoverOptions,
+              saveToPhotoAlbum: false,
+              correctOrientation: false
+            };
+            $cordovaCamera.getPicture(options).then(function(data) {
+                 $scope.myPicture = data;
+
+            }, function(err) {
+                 console.log(err);
+            });
+        
+        }
+
+        $scope.tiposVistorias = tiposVistorias;
+        $scope.addItem = function(itemForm) {
+            
+            // Verifica se os Form é de edição ou de adição de novo Item
+            if (id_click > -1) {
+                // Edita o item
+                id = id_click;
+                $localStorage.itensVistoriados.db[id].dados = $scope.item;
+                $localStorage.itensVistoriados.db[id].fotos64 = $scope.myPictures;
+                $localStorage.itensVistoriados.db[id].modificado = timestampUTC();
+                
+                $mdDialog.hide();
+            } else {
+                id = $localStorage.itensVistoriados.nextID;
+
+                /* OBJETO
+                this.id = 0;
+                this.id_dono = '';
+                this.data_criacao = '';
+                this.dados = '';
+                */
+                item = new itemVitoriado(); 
+                item.id = id;
+                item.id_vistoria = id_dono;
+                item.data_criacao = timestampUTC();
+                item.modificado = item.data_criacao;
+                
+                item.fotos64 = $scope.myPictures;
+                item.dados = $scope.item;
+
+                $localStorage.itensVistoriados.db[id] = item;
+
+                id = id + 1; 
+                $localStorage.itensVistoriados.nextID = id;
+                
+                $mdDialog.hide();
+            }
+
+        };
+        
+        $scope.capturePhotoWithFile = function ()
+        {
+            navigator.camera.getPicture(function (imageData) {
+                imgView = imageData;
+            }, function (msg) {
+                console.log(msg);
+            }, { quality: 50, destinationType: Camera.DestinationType.DATA_URL });
+        }
+        
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+    }
 
 });
 
