@@ -41,6 +41,7 @@
 <preference name="android-targetSdkVersion" value="21"/>
 <preference name="android-installLocation" value="internalOnly"/>
 <preference name="android-signed" value="true"/>
+<preference name="AndroidLaunchMode" value="singleTop"/>
 <intelxdk:crosswalk version="19"/>
 <preference name="splashscreen" value="splash"/>
 <!--creationInfo:{"src":"jsapp/template-blank-cordova-project-lite/sample.zip","projectTypeName":"com.intel.xdk.projecttype.jsapp"}-->

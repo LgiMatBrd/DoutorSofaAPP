@@ -321,8 +321,8 @@
         },
         "isActive_": true,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
-        "appID_": "seyconel.vistorias.app",
+        "appName_": "AppDrSofa",
+        "appID_": "drsofa.vistorias.app",
         "appAccess_": {
           "mode": "whitelist",
           "network": [
@@ -347,7 +347,7 @@
         "crosswalkVersion_": "19",
         "appAuthor_": "Luigi Matheus Afornalli Breda",
         "appVersion_": "0.0.0.1",
-        "appDescription_": "Aplicativo para controle de vistorias Seyconel."
+        "appDescription_": "Aplicativo para controle de visitar Dr. Sofá."
       },
       "WebApp": {
         "platform_": "webapp",
@@ -381,7 +381,7 @@
         "preferences_": {},
         "isActive_": false,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
+        "appName_": "AppDrSofa",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -456,7 +456,7 @@
         "preferences_": {},
         "isActive_": true,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
+        "appName_": "AppDrSofa",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
