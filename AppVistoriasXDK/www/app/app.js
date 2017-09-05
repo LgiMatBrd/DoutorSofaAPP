@@ -8,11 +8,7 @@ app.config(function($routeProvider,$mdIconProvider) {
         templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
     })
-    .when("/teste", {
-        templateUrl : "paginas/teste.html", 
-		controller  : 'testeController'
-    })
-    .when("/cancelados", {
+    .when("/cancelados", { 
         templateUrl : "paginas/cancelados.html", 
 		controller  : 'canceladosController'
     })
@@ -435,6 +431,7 @@ app.controller('canceladosController', function($scope, $routeParams, $http, $lo
 
 });
 
+// CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
     $scope.go = function ( path ) {
       $location.path( path );
