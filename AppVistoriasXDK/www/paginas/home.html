@@ -18,7 +18,7 @@
     </md-menu-bar>
 </md-toolbar>-->
 
-            <div style="background-color: rgb(255, 194, 0);">
+            <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
 
 
                 <div style="padding: 40px"></div>
@@ -30,8 +30,8 @@
             </div> 
             <div style="padding: 20px;"></div>
 -->
-            <div flex-xs="" flex-gt-xs="50" layout="column" class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important;">
-              <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">
+            <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important;">    
+                <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">                     
                 <md-card-header style="background-color: rgba(51, 51, 51, 0.04);">
                   <md-card-avatar>
                     <!--<md-icon class="md-avatar-icon" md-svg-icon="img/icons/menu.svg" role="img" aria-label="img/icons/menu.svg">
@@ -44,21 +44,24 @@
                   </md-card-avatar>
                   <md-card-header-text>
                     <span class="md-title">Limpeza de sofá completa</span>
-                    <span class="md-subhead">09:00 de 07/06/2017</span>
+                    <span class="md-subhead">{{ servico.dados.data | date:'dd/MM/yyyy' }} {{ servico.dados.horario ? 'às '+servico.dados.horario : 'Sem horário marcado'}}</span>
                   </md-card-header-text>
                 </md-card-header>
                 <img ng-src="../images/logomarcaDoutorSofa.png" class="md-card-image" alt="Doutor Sofá" src="../images/logomarcaDoutorSofa.png">
                 <md-card-title style="background-color: rgba(255, 194, 0, 0.13);">
                   <md-card-title-text>
-                    <span class="md-headline">Ivan Amato</span>
-                    <span class="md-subhead">Rua Blumenau, 286, Centro, Joinville - SC.</span>
+                    <span class="md-headline">{{ servico.dados.nome ? servico.dados.nome : 'Nome não preenchido'}}</span>
+                    <span class="md-subhead">{{ servico.dados.endereco ? servico.dados.endereco : 'Endereço não preenchido'}}</span>
                   </md-card-title-text>
                 </md-card-title>
                 <md-card-actions layout="row" layout-align="start center" class="layout-align-start-center layout-row">
                   <md-card-icon-actions>
-                    <button class="md-icon-button md-button md-ink-ripple" type="button">
-                    <i class="material-icons">place</i>
-                    </button>
+                    <md-button ng-click="showAdvanced($event,servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                        <i class="material-icons">mode_edit</i> 
+                    </md-button>
+                    <md-button ng-click="deletarVistoria(servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                        <i class="material-icons">close</i>
+                    </md-button>
                   </md-card-icon-actions>
                   <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button">
                   <i class="material-icons">keyboard_arrow_down</i>
@@ -66,24 +69,16 @@
                 </md-card-actions>
                 <md-card-content ng-show="row.booleanVal" style="background-color: rgba(51, 51, 51, 0.04);">
                   <p>
-                    Observações do serviço
+                    <strong>Observações do serviço</strong>
                   </p>
                   <div class="itensServico">
                     <div style="padding: 10px"></div>
-                    <table style="width: 100%; font-size: 12px;">
-                      <tr>
-                        <td>Limpeza Sofá 3 lugares</td>
-                        <td>R$ 100,00</td>
-                      </tr>
-                      <tr>
-                        <td>Limpeza Sofá 2 lugares</td>
-                        <td>R$ 80,00</td>
-                      </tr>
-                    </table>
+                    {{ servico.dados.observacao ? servico.dados.observacao : 'Nenhuma informação do serviço adicionado'}}
                   </div>
                 </md-card-content>
-              </md-card>
+              </md-card>       
             </div>
+                
         </div>
 
  
@@ -102,13 +97,13 @@
                   <md-button ng-click="showAdvanced($event, -1)" aria-label="AddServico" class="md-fab md-raised md-mini">
                     <i class="material-icons" aria-label="AddServico" style="color: #333;">add</i>
                   </md-button>
-                  <md-button ng-click="go('/cancelados')" aria-label="Facebook" class="md-fab md-raised md-mini">
+                  <md-button ng-click="abrirPagina('/home/cancelados')" aria-label="Facebook" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">do_not_disturb</i>
                   </md-button>
-                  <md-button ng-click="go('/realizados')" aria-label="Facebook" class="md-fab md-raised md-mini">
+                  <md-button ng-click="abrirPagina('/home/realizados')" aria-label="Facebook" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">check_box</i>
                   </md-button>
-                  <md-button ng-click="go('/home')" aria-label="Google Hangout" class="md-fab md-raised md-mini">
+                  <md-button ng-click="abrirPagina('/home')" aria-label="Google Hangout" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">remove_red_eye</i>
                   </md-button>
                 </md-fab-actions>
@@ -133,19 +128,19 @@
  
                 <!-- FORMULÁRIO Dr. Sofá. -->
 
-                <md-input-container>
+                <md-input-container style="width: 100% !important;">
                 <label>Data</label>
-                <md-datepicker ng-model="item.data"></md-datepicker>
+                    <md-datepicker ng-model="item.data" md-placeholder="Insira uma data"></md-datepicker>                    
                 </md-input-container>
                   
                 <md-input-container class="md-block" flex-gt-sm="" required>
                 <label>Endereço</label>
-                <input ng-model="item.setor" />
+                <input ng-model="item.endereco" />
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="" required>
                 <label>Horário</label>
-                <input ng-model="item.comprimento" />
+                <input ng-model="item.horario" />
                 </md-input-container>
                   
                 <md-input-container class="md-block" flex-gt-sm="" required>
@@ -160,7 +155,7 @@
 
                 <md-input-container class="md-block" required>
                   <label>Serviço</label>
-                  <textarea ng-model="item.observacao" md-maxlength="150" rows="5" md-select-on-focus=""></textarea>
+                  <textarea ng-model="item.servico" md-maxlength="150" rows="5" md-select-on-focus=""></textarea>
                 </md-input-container>
                   
                 <md-input-container class="md-block" flex-gt-sm="" required>
@@ -170,7 +165,7 @@
 
                 <md-input-container class="md-block" flex-gt-sm="" required>
                     <label>Tipo do pagamento</label>
-                    <md-select ng-model="item.ramal">
+                    <md-select ng-model="item.tipoPag">
                       <md-option value="1">Dinheiro</md-option>
                       <md-option value="2">Cartão de crédiyo</md-option>
                       <md-option value="3">Cartão de débito</md-option>

@@ -155,3 +155,17 @@ body{
 .mt-10 {
   margin-top: 10px;
 }
+
+.md-icon-button+.md-datepicker-input-container {
+    margin-left: 0;
+    width: 78% !important;
+}
+
+md-input-container {
+    display: inline-block;
+    position: relative;
+    padding: 2px;
+    margin: 18px 0;
+    vertical-align: middle;
+    width: 100% !important;
+}
