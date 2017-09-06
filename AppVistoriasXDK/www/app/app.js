@@ -120,27 +120,42 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     $scope.abrirPagina = function ( path ) {
       $location.path( path );
     };
+     
+    // inicia
+	$scope.servicos = $localStorage.itensVistoriados.db;  
     
-    $scope.filtrarResultados = function ( filtro ) {
+    // recebe os filtros
+    $scope.filtrarResultados = function(filtro) {
         if (filtro == 'cancelados') {
-            console.dir('cancelados');            
+            populaVistorias(1);      
         } else if(filtro == 'realizados') {
-            console.dir('realizados');            
-        } else {
+            populaVistorias(2);   
+        } else { // todos
             $scope.servicos = $localStorage.itensVistoriados.db;  
-            console.dir('home');
         }
     };
     
-	$scope.servicos = $localStorage.itensVistoriados.db;  
-    
-    console.dir($scope.servicos);
+    // popula a variavel servicos 
+    function populaVistorias($filtro)
+    { 
+        var db = $localStorage.itensVistoriados.db;
+        $scope.servicos = {}; 
+        
+        for (var vist_key in db)
+        {
+            if (db.hasOwnProperty(vist_key))
+            {
+                if (db[vist_key].status == $filtro)
+                    $scope.servicos[vist_key] = Object.create(db[vist_key]);
+            }
+        }
+    }
     
     // deletar vistoria
     $scope.deletarVistoria = function ($id)
     {
-        console.dir('heia chicoteia as feia');
         delete $localStorage.itensVistoriados.db[$id]; 
+        populaVistorias(0); 
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -155,7 +170,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 tiposVistorias: $scope.tiposVistorias
             },
             bindToController: true,
-            onRemoving: function() { populaVistorias($scope.id_dono); },
+            onRemoving: function() { populaVistorias(0); },
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose:true,
@@ -165,7 +180,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
 
     // CONTROLLER TELA DOS FORMULÁRIOS
     function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera) {
-        $scope.myPictures = [];
+        $scope.myPictures = []; 
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
@@ -242,6 +257,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 item.id_vistoria = id_dono;
                 item.data_criacao = timestampUTC();
                 item.modificado = item.data_criacao;
+                item.status = 0;
                 
                 item.fotos64 = $scope.myPictures;
                 item.dados = $scope.item;
@@ -253,7 +269,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 
                 $mdDialog.hide();
             }
-
+            populaVistorias(0); 
         };
         
         $scope.capturePhotoWithFile = function ()

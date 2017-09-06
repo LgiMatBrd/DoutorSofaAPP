@@ -7,14 +7,14 @@
 
             <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
                 <div style="padding: 40px"></div>
-                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important;">    
+                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important; background-color: rgb(255, 194, 0);">    
                         <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">                     
                         <md-card-header style="background-color: rgba(51, 51, 51, 0.04);">
                           <md-card-avatar>
                           <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
                           </md-card-avatar>
                           <md-card-header-text>
-                            <span class="md-title">Limpeza de sofá completa</span>
+                            <span class="md-title">Limpeza de sofá completa {{ servico.status }}</span>
                             <span class="md-subhead">{{ servico.dados.data | date:'dd/MM/yyyy' }} {{ servico.dados.horario ? 'às '+servico.dados.horario : 'Sem horário marcado'}}</span>
                           </md-card-header-text>
                         </md-card-header>
@@ -30,6 +30,9 @@
                             <md-button ng-click="showAdvanced($event,servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
                                 <i class="material-icons">mode_edit</i> 
                             </md-button>
+                            <md-button ng-click="finalizar(servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                                <i class="material-icons">check</i>
+                            </md-button>
                             <md-button ng-click="deletarVistoria(servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
                                 <i class="material-icons">close</i>
                             </md-button>
@@ -44,7 +47,7 @@
                           </p>
                           <div class="itensServico">
                             <div style="padding: 10px"></div>
-                            {{ servico.dados.observacao ? servico.dados.observacao : 'Nenhuma informação do serviço adicionado'}}
+                            {{ servico.dados.servico ? servico.dados.servico : 'Nenhuma informação do serviço adicionado'}}
                           </div>
                         </md-card-content>
                       </md-card>        

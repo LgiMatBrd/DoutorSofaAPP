@@ -39,17 +39,6 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-camera": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-camera@2.3.0"
-        },
-        "is_top_level": true,
-        "variables": {
-            "CAMERA_USAGE_DESCRIPTION": " ",
-            "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
-        }
-    },
     "cordova-plugin-compat": {
         "source": {
             "type": "local",
@@ -65,6 +54,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-network-information@1.2.1"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-camera": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-camera@2.3.0"
         },
         "is_top_level": true,
         "variables": {}

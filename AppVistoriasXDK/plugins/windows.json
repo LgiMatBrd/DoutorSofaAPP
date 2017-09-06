@@ -16,13 +16,13 @@
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "HelloCordova"
         },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "HelloCordova"
-        },
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "HelloCordova"
         },
         "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "HelloCordova"
         }
     },
