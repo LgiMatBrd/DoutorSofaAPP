@@ -2,7 +2,7 @@
 var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
 
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
-app.config(function($routeProvider,$mdIconProvider) {
+app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
     $routeProvider
     .when("/home", {
         templateUrl : "paginas/home.html", 
@@ -23,6 +23,10 @@ app.config(function($routeProvider,$mdIconProvider) {
         .iconSet('communication', 'img/icons/sets/communication-icons.svg', 24)
         .icon('synced', 'icons/synced.svg')
         .defaultIconSet('img/icons/sets/core-icons.svg', 24);
+    
+    $mdThemingProvider.theme('default')
+          .primaryPalette('yellow')
+          .accentPalette('grey');
 });
 
 // INICIA BANCO DE DADOS LOCAL
@@ -109,14 +113,24 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 
 // CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-scale';
+    $scope.selectedDirection = 'up'; 
     
     $scope.abrirPagina = function ( path ) {
       $location.path( path );
     };
     
-    $scope.isOpen = false;
-    $scope.selectedMode = 'md-scale';
-    $scope.selectedDirection = 'up'; 
+    $scope.filtrarResultados = function ( filtro ) {
+        if (filtro == 'cancelados') {
+            console.dir('cancelados');            
+        } else if(filtro == 'realizados') {
+            console.dir('realizados');            
+        } else {
+            $scope.servicos = $localStorage.itensVistoriados.db;  
+            console.dir('home');
+        }
+    };
     
 	$scope.servicos = $localStorage.itensVistoriados.db;  
     

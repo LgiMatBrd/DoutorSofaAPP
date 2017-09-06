@@ -1,85 +1,55 @@
             <md-toolbar style="position: fixed !important;">
                 <div class="md-toolbar-tools">
                     <!--<md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>-->
-                    <h2><span>Doutor Sofá <span style="color: white;">-</span> Agendados</span></h2>
+                    <h2><span>Doutor Sofá - Agendados</span></h2>
                 </div>
             </md-toolbar>
 
-<!--<md-toolbar >
-    <md-menu-bar>
-        <md-menu>
-            <button ng-click="$mdOpenMenu($event)" aria-label="Open sample menu">open first</button>
-            <md-menu-content width="6" id="messages">
-                <md-menu-item md-menu-origin md-menu-align-target>
-                    <md-button ng-click="doSomething()">Test 1</md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
-    </md-menu-bar>
-</md-toolbar>-->
-
             <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
-
-
                 <div style="padding: 40px"></div>
-<!--            <md-subheader class="md-no-sticky">Lista de serviços</md-subheader>
-            <div style="padding: 0px 20px">
-            <h3 class="md-display-1" class="md-no-sticky" style="margin-bottom: 0px;">Hoje <small style="font-size: small !important;">( 07/06/2017 )</small></h3>
-            <span class="md-body-1" style="font-size: 13px; opacity: .75;">Serviços agendados: <strong>3</strong></span><br>
-            <span class="md-body-1" style="font-size: 13px; opacity: .75;">Faturamento agendado: <strong>R$ 1.800,00</strong></span>
-            </div> 
-            <div style="padding: 20px;"></div>
--->
-            <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important;">    
-                <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">                     
-                <md-card-header style="background-color: rgba(51, 51, 51, 0.04);">
-                  <md-card-avatar>
-                    <!--<md-icon class="md-avatar-icon" md-svg-icon="img/icons/menu.svg" role="img" aria-label="img/icons/menu.svg">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 18 18" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
-                        <path d="M0 0h18v18h-18z" fill="none"></path>
-                        <path d="M2 13.5h14v-1.5h-14v1.5zm0-4h14v-1.5h-14v1.5zm0-5.5v1.5h14v-1.5h-14z"></path>
-                      </svg>
-                    </md-icon>-->
-                  <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
-                  </md-card-avatar>
-                  <md-card-header-text>
-                    <span class="md-title">Limpeza de sofá completa</span>
-                    <span class="md-subhead">{{ servico.dados.data | date:'dd/MM/yyyy' }} {{ servico.dados.horario ? 'às '+servico.dados.horario : 'Sem horário marcado'}}</span>
-                  </md-card-header-text>
-                </md-card-header>
-                <img ng-src="../images/logomarcaDoutorSofa.png" class="md-card-image" alt="Doutor Sofá" src="../images/logomarcaDoutorSofa.png">
-                <md-card-title style="background-color: rgba(255, 194, 0, 0.13);">
-                  <md-card-title-text>
-                    <span class="md-headline">{{ servico.dados.nome ? servico.dados.nome : 'Nome não preenchido'}}</span>
-                    <span class="md-subhead">{{ servico.dados.endereco ? servico.dados.endereco : 'Endereço não preenchido'}}</span>
-                  </md-card-title-text>
-                </md-card-title>
-                <md-card-actions layout="row" layout-align="start center" class="layout-align-start-center layout-row">
-                  <md-card-icon-actions>
-                    <md-button ng-click="showAdvanced($event,servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
-                        <i class="material-icons">mode_edit</i> 
-                    </md-button>
-                    <md-button ng-click="deletarVistoria(servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
-                        <i class="material-icons">close</i>
-                    </md-button>
-                  </md-card-icon-actions>
-                  <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button">
-                  <i class="material-icons">keyboard_arrow_down</i>
-                  </button>
-                </md-card-actions>
-                <md-card-content ng-show="row.booleanVal" style="background-color: rgba(51, 51, 51, 0.04);">
-                  <p>
-                    <strong>Observações do serviço</strong>
-                  </p>
-                  <div class="itensServico">
-                    <div style="padding: 10px"></div>
-                    {{ servico.dados.observacao ? servico.dados.observacao : 'Nenhuma informação do serviço adicionado'}}
-                  </div>
-                </md-card-content>
-              </md-card>       
-            </div>
-                
-        </div>
+                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important;">    
+                        <md-card class="_md noright" ng-repeat="servico in servicos" ng-click="">                     
+                        <md-card-header style="background-color: rgba(51, 51, 51, 0.04);">
+                          <md-card-avatar>
+                          <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
+                          </md-card-avatar>
+                          <md-card-header-text>
+                            <span class="md-title">Limpeza de sofá completa</span>
+                            <span class="md-subhead">{{ servico.dados.data | date:'dd/MM/yyyy' }} {{ servico.dados.horario ? 'às '+servico.dados.horario : 'Sem horário marcado'}}</span>
+                          </md-card-header-text>
+                        </md-card-header>
+                        <img ng-src="../images/logomarcaDoutorSofa.png" class="md-card-image" alt="Doutor Sofá" src="../images/logomarcaDoutorSofa.png">
+                        <md-card-title style="background-color: rgba(255, 194, 0, 0.13);">
+                          <md-card-title-text>
+                            <span class="md-headline">{{ servico.dados.nome ? servico.dados.nome : 'Nome não preenchido'}}</span>
+                            <span class="md-subhead">{{ servico.dados.endereco ? servico.dados.endereco : 'Endereço não preenchido'}}</span>
+                          </md-card-title-text>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="start center" class="layout-align-start-center layout-row">
+                          <md-card-icon-actions>
+                            <md-button ng-click="showAdvanced($event,servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                                <i class="material-icons">mode_edit</i> 
+                            </md-button>
+                            <md-button ng-click="deletarVistoria(servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                                <i class="material-icons">close</i>
+                            </md-button>
+                          </md-card-icon-actions>
+                          <button ng-click="row.booleanVal = !row.booleanVal" class="md-icon-button md-button md-ink-ripple" type="button">
+                          <i class="material-icons">keyboard_arrow_down</i>
+                          </button>
+                        </md-card-actions>
+                        <md-card-content ng-show="row.booleanVal" style="background-color: rgba(51, 51, 51, 0.04);">
+                          <p>
+                            <strong>Observações do serviço</strong>
+                          </p>
+                          <div class="itensServico">
+                            <div style="padding: 10px"></div>
+                            {{ servico.dados.observacao ? servico.dados.observacao : 'Nenhuma informação do serviço adicionado'}}
+                          </div>
+                        </md-card-content>
+                      </md-card>        
+                    </div>
+                </div>
 
  
             <!--<md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdvanced($event, -1)" style="background-color: #1364b4; position: fixed !important;">
@@ -97,13 +67,13 @@
                   <md-button ng-click="showAdvanced($event, -1)" aria-label="AddServico" class="md-fab md-raised md-mini">
                     <i class="material-icons" aria-label="AddServico" style="color: #333;">add</i>
                   </md-button>
-                  <md-button ng-click="abrirPagina('/home/cancelados')" aria-label="Facebook" class="md-fab md-raised md-mini">
+                  <md-button ng-click="filtrarResultados('cancelados')" aria-label="Facebook" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">do_not_disturb</i>
                   </md-button>
-                  <md-button ng-click="abrirPagina('/home/realizados')" aria-label="Facebook" class="md-fab md-raised md-mini">
+                  <md-button ng-click="filtrarResultados('realizados')" aria-label="Facebook" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">check_box</i>
                   </md-button>
-                  <md-button ng-click="abrirPagina('/home')" aria-label="Google Hangout" class="md-fab md-raised md-mini">
+                  <md-button ng-click="filtrarResultados('home')" aria-label="Google Hangout" class="md-fab md-raised md-mini">
                     <i class="material-icons" style="color: #333;">remove_red_eye</i>
                   </md-button>
                 </md-fab-actions>
@@ -126,6 +96,14 @@
 
                 <input type="hidden" name="EdicaoID" ng-model="item.EdicaoID" />
  
+                <!--<style>
+                    md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+                        border-color: rgb(255, 194, 0) !important;
+                    }                
+                    label {
+                        color: #333 !important;
+                    }
+                </style>-->
                 <!-- FORMULÁRIO Dr. Sofá. -->
 
                 <md-input-container style="width: 100% !important;">
