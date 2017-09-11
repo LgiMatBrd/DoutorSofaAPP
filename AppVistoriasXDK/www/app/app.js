@@ -112,7 +112,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 });
 
 // CONTROLLER DA HOME
-app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
@@ -123,9 +123,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     };
      
     $scope.angularEquals = angular.equals;
-    $scope.foo={};
-    $scope.bar="bam"
-
+    
     // inicia
     populaVistorias();
     
@@ -173,10 +171,16 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     console.dir($localStorage.itensVistoriados.db);
     
     // deletar vistoria
-    $scope.deletarVistoria = function ($id)
+    $scope.deletarServico = function ($id)
     {
         delete $localStorage.itensVistoriados.db[$id]; 
         populaVistorias(0); 
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Serviço deletado')
+            .position("top top")
+            .hideDelay(3000)
+        );
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
