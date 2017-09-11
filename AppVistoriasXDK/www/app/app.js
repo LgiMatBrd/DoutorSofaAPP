@@ -115,7 +115,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
-    $scope.selectedDirection = 'up'; 
+    $scope.selectedDirection = 'left'; 
     
     $scope.abrirPagina = function ( path ) {
       $location.path( path );
