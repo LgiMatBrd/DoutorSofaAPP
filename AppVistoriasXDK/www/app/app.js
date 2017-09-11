@@ -113,6 +113,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 
 // CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location) {
+    
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'left'; 
@@ -121,17 +122,31 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
       $location.path( path );
     };
      
+    $scope.angularEquals = angular.equals;
+    $scope.foo={};
+    $scope.bar="bam"
+
     // inicia
-	$scope.servicos = $localStorage.itensVistoriados.db;  
+    populaVistorias();
     
     // recebe os filtros
     $scope.filtrarResultados = function(filtro) {
         if (filtro == 'cancelados') {
             populaVistorias(1);      
+            $scope.filtroCancelados = true;
+            $scope.filtroTodos = false;
+            $scope.filtroRealizados = false;
+            
         } else if(filtro == 'realizados') {
             populaVistorias(2);   
+            $scope.filtroRealizados = true;
+            $scope.filtroTodos = false;
+            $scope.filtroCancelados = false;
         } else { // todos
-            $scope.servicos = $localStorage.itensVistoriados.db;  
+            populaVistorias();
+            $scope.filtroTodos = true;
+            $scope.filtroRealizados = false;
+            $scope.filtroCancelados = false;
         }
     };
     
@@ -141,15 +156,21 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         var db = $localStorage.itensVistoriados.db;
         $scope.servicos = {}; 
         
-        for (var vist_key in db)
-        {
-            if (db.hasOwnProperty(vist_key))
+        if ($filtro) {
+            for (var vist_key in db)
             {
-                if (db[vist_key].status == $filtro)
-                    $scope.servicos[vist_key] = Object.create(db[vist_key]);
+                if (db.hasOwnProperty(vist_key))
+                {
+                    if (db[vist_key].status == $filtro)
+                        $scope.servicos[vist_key] = Object.create(db[vist_key]);
+                }
             }
+        } else {
+            $scope.servicos = $localStorage.itensVistoriados.db;
         }
     }
+    
+    console.dir($localStorage.itensVistoriados.db);
     
     // deletar vistoria
     $scope.deletarVistoria = function ($id)
