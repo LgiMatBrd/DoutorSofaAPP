@@ -204,7 +204,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     };
 
     // CONTROLLER TELA DOS FORMULÁRIOS
-    function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera) {
+    function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
         $scope.myPictures = []; 
         
         // Verifica se o usuário quer editar o item.
@@ -268,6 +268,13 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $localStorage.itensVistoriados.db[id].modificado = timestampUTC();
                 
                 $mdDialog.hide();
+                
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Serviço editado')
+                    .position("top top")
+                    .hideDelay(3000)
+                );            
             } else {
                 id = $localStorage.itensVistoriados.nextID;
 
@@ -293,6 +300,12 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $localStorage.itensVistoriados.nextID = id;
                 
                 $mdDialog.hide();
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Serviço adicionado')
+                    .position("top top")
+                    .hideDelay(3000)
+                );                
             }
             populaVistorias(0); 
         };
