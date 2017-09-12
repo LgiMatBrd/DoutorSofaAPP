@@ -132,7 +132,10 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .textContent('Admin master!')
                     .position("top buttom")
                     .hideDelay(3000)
-                );                   
+                );                      
+                $localStorage.UsuarioLogado.db = {};
+                $localStorage.UsuarioLogado.db.dados = {};
+                $localStorage.UsuarioLogado.db.dados.tipoUsuario = 3;
                 $location.path('/home').replace(); 
              } else {
              angular.forEach($localStorage.Funcionarios.db, function(value, key){
@@ -206,7 +209,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 // CONTROLLER DA HOME
 app.controller('funcionariosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
-    if ($localStorage.UsuarioLogado.db.dados.tipoUsuario != 2 || $localStorage.UsuarioLogado.db.dados.tipoUsuario != 3) { 
+    if ($localStorage.UsuarioLogado.db.dados.tipoUsuario == 1) { 
         $mdToast.show(
             $mdToast.simple()
             .textContent('Sem permissão necessária!')
