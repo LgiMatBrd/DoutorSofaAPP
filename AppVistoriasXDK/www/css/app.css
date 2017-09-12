@@ -169,3 +169,15 @@ md-input-container {
     vertical-align: middle;
     width: 100% !important;
 }
+
+.menudemoBasicUsage .md-menu-demo {
+  padding: 24px; }
+.menudemoBasicUsage .menu-demo-container {
+  min-height: 200px; }
+
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 70px !important;
+}

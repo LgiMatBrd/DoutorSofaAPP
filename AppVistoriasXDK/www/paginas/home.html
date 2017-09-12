@@ -2,8 +2,34 @@
                 <div class="md-toolbar-tools">
                     <!--<md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>-->
                     <h2><span>Doutor Sofá</span></h2>
+
+                    <md-menu md-position-mode="target-right target">
+                      <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
+                        <i class="material-icons" style="color: #999;">menu</i>
+                      </md-button>
+                      <md-menu-content width="4" >
+                        <md-menu-item ng-repeat="item in itensMenu">
+                          <md-button ng-click="abrirPagina(item.href)">
+                              <div layout="row" flex>
+                                <p flex>{{item.nome}}</p>
+                                <i class="material-icons">{{item.icone}}</i>
+                              </div>
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
+                  
                 </div>
             </md-toolbar>
+
+            <style>
+            md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100% !important;
+                height: 70px !important;
+            }
+            </style>
 
             <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
                 <div style="padding: 40px"></div>
@@ -15,7 +41,7 @@
                           <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
                           </md-card-avatar>
                           <md-card-header-text>
-                            <span class="md-title">Limpeza de sofá completa {{ servico.status }}</span>
+                            <span class="md-title">Limpeza de sofá completa</span>
                             <span class="md-subhead">{{ servico.dados.data | date:'dd/MM/yyyy' }} {{ servico.dados.horario ? 'às '+servico.dados.horario : 'Sem horário marcado'}}</span>
                           </md-card-header-text>
                         </md-card-header>
@@ -85,11 +111,11 @@
                     <i class="material-icons">add</i>
             </md-button>-->
 
-            <script type="text/ng-template" id="formulario-vistoria.tmpl.html">
+            <script type="text/ng-template" id="formulario-servico.tmpl.html">
             <md-dialog class="fullscreen-dialog" aria-label="Form">
             <md-toolbar>
             <div class="md-toolbar-tools">
-                    <md-button><i ng-click="cancel()" class="material-icons" style="color: white !important;">keyboard_arrow_left</i></md-button>
+                    <md-button><i ng-click="cancel()" class="material-icons" style="color: #999 !important;">keyboard_arrow_left</i></md-button>
               <h2 flex="flex">Adicionar serviço</h2>
             </div>
             </md-toolbar>
@@ -113,6 +139,16 @@
                 <label>Data</label>
                     <md-datepicker ng-model="item.data" md-placeholder="Insira uma data"></md-datepicker>                    
                 </md-input-container>
+                  
+                <md-input-container class="md-block" flex-gt-sm="" required>
+                    <label>Tipo de serviço</label>
+                    <md-select ng-model="item.tipoServico">
+                      <md-option value="1">Estofado(s)</md-option>
+                      <md-option value="2">Tapete(s)</md-option>
+                      <md-option value="3">Colchão</md-option>
+                      <md-option value="4">Outro(s)</md-option>
+                    </md-select>
+                </md-input-container>                  
                   
                 <md-input-container class="md-block" flex-gt-sm="" required>
                 <label>Endereço</label>

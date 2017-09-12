@@ -8,6 +8,10 @@ app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
         templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
     })
+    .when("/franquados", {
+        templateUrl : "paginas/franquados.html", 
+		controller  : 'franquadosController'
+    })
     .when("/", {
         templateUrl : "paginas/login.html",
 		controller  : 'loginController'
@@ -31,38 +35,65 @@ app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
 
 // INICIA BANCO DE DADOS LOCAL
 app.run(function($localStorage) {
-    
-    if (typeof $localStorage.clientes === 'undefined' || typeof $localStorage.clientes.db === 'undefined' || $localStorage.clientes.version !== 'v0.4')
-    {
-        $localStorage.clientes = {
+    if (typeof $localStorage.Servicos === 'undefined' || typeof $localStorage.Servicos.db === 'undefined' || $localStorage.Servicos.version !== 'v0.1')
+    { 
+        $localStorage.Servicos = {
             nextID: 0,
-            version: 'v0.4',
-            sendTimestamp: 0, // Armazena a timestamp UTC de modificação do último registro enviado
-            recvTimestamp: 0, // Armazena a timestamp UTC de modificação do último registro recebido
-            remoteDelete: [], // Armazena as IDs externas que devem ser apagadas
-            db: {}
-        }; 
-    }
-    if (typeof $localStorage.vistorias === 'undefined' || typeof $localStorage.vistorias.db === 'undefined' || $localStorage.vistorias.version !== 'v0.4')
-    {
-        $localStorage.vistorias = {
-            nextID: 0,
-            version: 'v0.4',
+            version: 'v0.1',
             sendTimestamp: 0,
             recvTimestamp: 0,
             remoteDelete: [],
             db: {}
         }; 
     }
-    if (typeof $localStorage.itensVistoriados === 'undefined' || typeof $localStorage.itensVistoriados.db === 'undefined' || $localStorage.itensVistoriados.version !== 'v0.3')
-    {
-        $localStorage.itensVistoriados = {
+    if (typeof $localStorage.Franqueados === 'undefined' || typeof $localStorage.Franqueados.db === 'undefined' || $localStorage.Franqueados.version !== 'v0.1')
+    { 
+        $localStorage.Franqueados = {
             nextID: 0,
-            version: 'v0.3',
+            version: 'v0.1',
             sendTimestamp: 0,
             recvTimestamp: 0,
             remoteDelete: [],
             db: {}
+        }; 
+    }
+    if (typeof $localStorage.Funcionarios === 'undefined' || typeof $localStorage.Funcionarios.db === 'undefined' || $localStorage.Funcionarios.version !== 'v0.1')
+    { 
+        $localStorage.Funcionarios = {
+            nextID: 0,
+            version: 'v0.1',
+            sendTimestamp: 0,
+            recvTimestamp: 0,
+            remoteDelete: [],
+            db: {}
+        }; 
+    }
+    if (typeof $localStorage.itensMenu === 'undefined' || $localStorage.itensMenu.version !== 'v0.1')
+    { 
+        $localStorage.itensMenu = {
+            nextID: 0,
+            version: 'v0.1',
+            sendTimestamp: 0,
+            recvTimestamp: 0,
+            remoteDelete: [],
+            itens: [
+            {
+                "id": 1,
+                "icone": 'multiline_chart',
+                "nome": 'Dashboard'
+            }
+            ,{
+                "id": 2,
+                "icone": 'business',
+                "nome": 'Franquiados',
+                "href": 'franquados'
+            }
+            ,{
+                "id": 3,
+                "icone": 'person_add',
+                "nome": 'Funcionários'
+            }
+            ]
         }; 
     }
 });
@@ -112,7 +143,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 });
 
 // CONTROLLER DA HOME
-app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+app.controller('franquadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
@@ -124,34 +155,15 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
      
     $scope.angularEquals = angular.equals;
     
-    // inicia
-    populaVistorias();
+    $scope.itensMenu = $localStorage.itensMenu.itens;
     
-    // recebe os filtros
-    $scope.filtrarResultados = function(filtro) {
-        if (filtro == 'cancelados') {
-            populaVistorias(1);      
-            $scope.filtroCancelados = true;
-            $scope.filtroTodos = false;
-            $scope.filtroRealizados = false;
-            
-        } else if(filtro == 'realizados') {
-            populaVistorias(2);   
-            $scope.filtroRealizados = true;
-            $scope.filtroTodos = false;
-            $scope.filtroCancelados = false;
-        } else { // todos
-            populaVistorias();
-            $scope.filtroTodos = true;
-            $scope.filtroRealizados = false;
-            $scope.filtroCancelados = false;
-        }
-    };
+    // inicia
+    populaServicos();
     
     // popula a variavel servicos 
-    function populaVistorias($filtro)
+    function populaServicos($filtro)
     { 
-        var db = $localStorage.itensVistoriados.db;
+        var db = $localStorage.Servicos.db;
         $scope.servicos = {}; 
         
         if ($filtro) {
@@ -164,21 +176,95 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 }
             }
         } else {
-            $scope.servicos = $localStorage.itensVistoriados.db;
+            $scope.servicos = $localStorage.Servicos.db;
         }
     }
-    
-    console.dir($localStorage.itensVistoriados.db);
     
     // deletar vistoria
     $scope.deletarServico = function ($id)
     {
-        delete $localStorage.itensVistoriados.db[$id]; 
-        populaVistorias(0); 
+        delete $localStorage.Servicos.db[$id]; 
+        populaServicos(0); 
         $mdToast.show(
             $mdToast.simple()
             .textContent('Serviço deletado')
-            .position("top right")
+            .position("top buttom")
+            .hideDelay(3000)
+        );
+    };
+    
+});
+
+// CONTROLLER DA HOME
+app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+    
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-scale';
+    $scope.selectedDirection = 'left'; 
+    
+    $scope.abrirPagina = function ( path ) {
+        console.dir('zika');
+        
+      $location.path( path );
+    };
+     
+    $scope.angularEquals = angular.equals;
+    
+    $scope.itensMenu = $localStorage.itensMenu.itens;
+    
+    // inicia
+    populaServicos();
+    
+    // recebe os filtros
+    $scope.filtrarResultados = function(filtro) {
+        if (filtro == 'cancelados') {
+            populaServicos(1);      
+            $scope.filtroCancelados = true;
+            $scope.filtroTodos = false;
+            $scope.filtroRealizados = false;
+            
+        } else if(filtro == 'realizados') {
+            populaServicos(2);   
+            $scope.filtroRealizados = true;
+            $scope.filtroTodos = false;
+            $scope.filtroCancelados = false;
+        } else { // todos
+            populaServicos();
+            $scope.filtroTodos = true;
+            $scope.filtroRealizados = false;
+            $scope.filtroCancelados = false;
+        }
+    };
+    
+    // popula a variavel servicos 
+    function populaServicos($filtro)
+    { 
+        var db = $localStorage.Servicos.db;
+        $scope.servicos = {}; 
+        
+        if ($filtro) {
+            for (var vist_key in db)
+            {
+                if (db.hasOwnProperty(vist_key))
+                {
+                    if (db[vist_key].status == $filtro)
+                        $scope.servicos[vist_key] = Object.create(db[vist_key]);
+                }
+            }
+        } else {
+            $scope.servicos = $localStorage.Servicos.db;
+        }
+    }
+    
+    // deletar vistoria
+    $scope.deletarServico = function ($id)
+    {
+        delete $localStorage.Servicos.db[$id]; 
+        populaServicos(0); 
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Serviço deletado')
+            .position("top buttom")
             .hideDelay(3000)
         );
     };
@@ -188,14 +274,14 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         $mdDialog
             .show({
             controller: DialogController,
-            templateUrl: 'formulario-vistoria.tmpl.html',
+            templateUrl: 'formulario-servico.tmpl.html',
             id_dono: $scope.id_dono,
             id_click: id_click,
             locals: {
                 tiposVistorias: $scope.tiposVistorias
             },
             bindToController: true,
-            onRemoving: function() { populaVistorias(0); },
+            onRemoving: function() { populaServicos(0); },
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose:true,
@@ -211,8 +297,8 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         if (id_click > -1)
         {
             $scope.item = {};
-            $scope.item = $localStorage.itensVistoriados.db[id_click].dados;
-            $scope.myPictures = $localStorage.itensVistoriados.db[id_click].fotos64;
+            $scope.item = $localStorage.Servicos.db[id_click].dados;
+            $scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
             // Pega os valores booleanos que estão em string e coverte novamente.
             angular.forEach($scope.item, function(value, key) {
@@ -263,9 +349,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             if (id_click > -1) {
                 // Edita o item
                 id = id_click;
-                $localStorage.itensVistoriados.db[id].dados = $scope.item;
-                $localStorage.itensVistoriados.db[id].fotos64 = $scope.myPictures;
-                $localStorage.itensVistoriados.db[id].modificado = timestampUTC();
+                $localStorage.Servicos.db[id].dados = $scope.item;
+                $localStorage.Servicos.db[id].fotos64 = $scope.myPictures;
+                $localStorage.Servicos.db[id].modificado = timestampUTC();
                 
                 $mdDialog.hide();
                 
@@ -276,7 +362,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                     .hideDelay(3000)
                 );            
             } else {
-                id = $localStorage.itensVistoriados.nextID;
+                id = $localStorage.Servicos.nextID;
 
                 /* OBJETO
                 this.id = 0;
@@ -284,7 +370,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 this.data_criacao = '';
                 this.dados = '';
                 */
-                item = new itemVitoriado(); 
+                item = new Servicos(); 
                 item.id = id;
                 item.id_vistoria = id_dono;
                 item.data_criacao = timestampUTC();
@@ -294,10 +380,10 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 item.fotos64 = $scope.myPictures;
                 item.dados = $scope.item;
 
-                $localStorage.itensVistoriados.db[id] = item;
+                $localStorage.Servicos.db[id] = item;
 
                 id = id + 1; 
-                $localStorage.itensVistoriados.nextID = id;
+                $localStorage.Servicos.nextID = id;
                 
                 $mdDialog.hide();
                 $mdToast.show(
@@ -307,7 +393,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                     .hideDelay(3000)
                 );                
             }
-            populaVistorias(0); 
+            populaServicos(0); 
         };
         
         $scope.capturePhotoWithFile = function ()
