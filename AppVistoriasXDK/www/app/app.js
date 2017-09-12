@@ -206,6 +206,16 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
 // CONTROLLER DA HOME
 app.controller('funcionariosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
+    if ($localStorage.UsuarioLogado.db.dados.tipoUsuario != 2 || $localStorage.UsuarioLogado.db.dados.tipoUsuario != 3) { 
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Sem permissão necessária!')
+            .position("top buttom")
+            .hideDelay(3000)
+        );        
+        $location.path('/home').replace();
+    }
+    
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'left'; 
@@ -360,6 +370,16 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
 
 // CONTROLLER DA HOME
 app.controller('franquadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+     
+    if ($localStorage.UsuarioLogado.db.dados.tipoUsuario != 3) { 
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Sem permissão necessária!')
+            .position("top buttom")
+            .hideDelay(3000)
+        );        
+        $location.path('/home').replace();
+    }
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
@@ -516,7 +536,8 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
 // CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
-    console.dir($localStorage.UsuarioLogado.db); 
+    $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
+    
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'left'; 
