@@ -178,7 +178,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         $mdToast.show(
             $mdToast.simple()
             .textContent('Serviço deletado')
-            .position("top top")
+            .position("top right")
             .hideDelay(3000)
         );
     };
@@ -272,7 +272,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent('Serviço editado')
-                    .position("top top")
+                    .position("top right")
                     .hideDelay(3000)
                 );            
             } else {
@@ -303,7 +303,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent('Serviço adicionado')
-                    .position("top top")
+                    .position("top right")
                     .hideDelay(3000)
                 );                
             }
