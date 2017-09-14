@@ -28,7 +28,7 @@
 						<span>{{msg}}</span>
 					</md-input-container>
 				</div>
-				<md-button class="md-raised md-primary" style="width:100%; margin: 0px 0px;" ng-click="user.submit(user)" ng-disabled="userForm.$invalid">Entrar</md-button>
+				<md-button class="md-raised md-primary" style="width:100%; margin: 0px 0px;" ng-click="user.submit($event, user)" ng-disabled="userForm.$invalid">Entrar</md-button>
 			</form>
 		</div>
 	</md-content>

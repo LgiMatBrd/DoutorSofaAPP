@@ -1,5 +1,6 @@
+
 // INICIA O APLICATIVO
-var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
+var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova','firebase']);
 
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
 app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
@@ -120,11 +121,15 @@ app.run(function($localStorage) {
 
 // CONTROLLER PÁGINA DE LOGIN
 app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog, $mdToast) {
+
     $scope.user = {
         email: '',
     };
-
-    $scope.user.submit = function(user) {
+    
+    
+    $scope.user.submit = function($event , user) {
+        
+        $event.preventDefault();
         
         if (user.username == 'luigi@hotmail.com' && user.password == 'Afokf!2394349' || user.username == 'luigimatheus@hotmail.com' && user.password == 'Afornalli!1997') {
                 $mdToast.show(

@@ -1,0 +1,117 @@
+            <md-toolbar style="position: fixed !important;">
+                <div class="md-toolbar-tools">
+                    <md-button><i back-button class="material-icons" style="color: #999;">keyboard_arrow_left</i></md-button>
+                    <h2><span>Doutor Sofá</span></h2>
+
+                    <md-menu md-position-mode="target-right target">
+                      <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
+                        <i class="material-icons" style="color: #999;">menu</i>
+                      </md-button>
+                      <md-menu-content width="4" >
+                        <md-menu-item ng-repeat="item in itensMenu">
+                          <md-button ng-click="abrirPagina(item.href)">
+                              <div layout="row" flex>
+                                <p flex>{{item.nome}}</p>
+                                <i class="material-icons">{{item.icone}}</i>
+                              </div>
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
+                  
+                </div>
+            </md-toolbar>
+
+            <style>
+            md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100% !important;
+                height: 70px !important;
+            }
+            </style>
+
+            <div style="background-color: white; height: 100% !important; min-height: 100% !important;">
+                <div style="padding: 40px"></div>
+                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important; background-color: white;">                            
+                      <h4 ng-show="angularEquals(franquados,{})" style="margin-left: 10px;">Nenhum franquado encontrado.</h4>
+                      <md-list-item ng-click="navigateTo(setting.extraScreen, $event)" ng-repeat="franquado in franquados">
+                        <i class="material-icons" style="color: #666; margin-right: 12px;">people_outline</i>
+                        <p> {{ franquado.dados.nome ? franquado.dados.nome : 'Sem nome'}} </p>
+                        <md-menu md-position-mode="target-right target">
+                          <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
+                            <i class="material-icons" style="color: #666; margin-right: 12px;">more_vert</i>
+                          </md-button>
+                          <md-menu-content width="4" >
+                            <md-menu-item>
+                              <md-button ng-click="deletarFranquado(franquado.id)">
+                                    <i class="material-icons">close</i>
+                                    <p flex>Deletar</p>
+                              </md-button>
+                            </md-menu-item>
+                          </md-menu-content>
+                        </md-menu>                          
+                      </md-list-item>                    
+                        
+                    <div class="lock-size" layout="row" layout-align="end end" style="position: fixed !important;right: 0 !important;bottom: 0 !important;">
+                      <md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}" ng-class="selectedMode">
+                        <md-fab-trigger>
+                          <md-button aria-label="menu" class="md-fab md-warn" style="background-color: #333;">
+                            <md-icon md-svg-src="img/icons/menu.svg" style="color: #ffd347;"></md-icon>
+                          </md-button>
+                        </md-fab-trigger>
+                        <md-fab-actions>
+                          <md-button ng-click="showAdvanced($event, -1)" aria-label="AddServico" class="md-fab md-raised md-mini">
+                            <i class="material-icons" aria-label="AddServico" style="color: #333;">add</i>
+                          </md-button>
+                        </md-fab-actions>
+                      </md-fab-speed-dial>
+                    </div>                               
+                        
+                    </div>         
+                </div>
+
+
+            <script type="text/ng-template" id="formulario-franquado.tmpl.html">
+            <md-dialog class="fullscreen-dialog" aria-label="Form">
+            <md-toolbar>
+            <div class="md-toolbar-tools">
+                    <md-button><i ng-click="cancel()" class="material-icons" style="color: #999 !important;">keyboard_arrow_left</i></md-button>
+              <h2 flex="flex">Adicionar franquado</h2>
+            </div>
+            </md-toolbar>
+            <md-content layout-padding="">
+            <div>
+              <form id="itemForm" name="itemForm">
+
+                <input type="hidden" name="EdicaoID" ng-model="item.EdicaoID" />
+ 
+                <!-- FORMULÁRIO Dr. Sofá. -->
+    
+                <md-input-container class="md-block" flex-gt-sm="" required>
+                <label>Nome do franquado</label>
+                <input ng-model="item.nome" />
+                </md-input-container>
+                                              
+                <md-input-container class="md-block" flex-gt-sm="" required>
+                <label>Endereço</label>
+                <input ng-model="item.endereco" />
+                </md-input-container>
+    
+                <md-input-container class="md-block" flex-gt-sm="" required>
+                <label>Telefone do franquado</label>
+                <input ng-model="item.telefone" />
+                </md-input-container>
+
+              </form>
+            </div>
+            <md-dialog-actions layout="row">
+              <span flex></span> 
+              <md-button style="width: 50% !important;" ng-click="cancel()"> Cancelar </md-button>
+              <md-button style="width: 50% !important; color: #333 !important;" ng-click="addItem(itemForm)" class="md-primary"> Adicionar </md-button>
+            </md-dialog-actions>
+            </md-content>
+
+            </md-dialog>
+            </script>
+
