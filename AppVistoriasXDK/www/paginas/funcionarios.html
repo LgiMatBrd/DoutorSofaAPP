@@ -37,14 +37,14 @@
                       <h4 ng-show="angularEquals(funcionarios,{})" style="margin-left: 10px;">Nenhum funcionário encontrado.</h4>
                       <md-list-item ng-click="navigateTo(setting.extraScreen, $event)" ng-repeat="funcionario in funcionarios">
                         <i class="material-icons" style="color: #666; margin-right: 12px;">people_outline</i>
-                        <p> {{ funcionario.dados.nome ? funcionario.dados.nome : 'Sem nome' }} </p>
+                        <p> {{ funcionario.email ? funcionario.email : 'Sem nome' }} </p>
                         <md-menu md-position-mode="target-right target">
                           <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
                             <i class="material-icons" style="color: #666; margin-right: 12px;">more_vert</i>
                           </md-button>
                           <md-menu-content width="4" >
                             <md-menu-item>
-                              <md-button ng-click="deletarFuncionario(funcionario.id)">
+                              <md-button ng-click="deletarFuncionario(funcionario)">
                                     <i class="material-icons">close</i>
                                     <p flex>Deletar</p>
                               </md-button>

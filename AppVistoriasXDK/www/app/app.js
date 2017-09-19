@@ -1,6 +1,6 @@
 
 // INICIA O APLICATIVO
-var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova','firebase']);
+var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
 
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
 app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
@@ -16,6 +16,10 @@ app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
     .when("/funcionarios", {
         templateUrl : "paginas/funcionarios.html", 
 		controller  : 'funcionariosController'
+    })
+    .when("/sair", {
+        templateUrl : "paginas/login.html", 
+		controller  : 'loginController'
     })
     .when("/", {
         templateUrl : "paginas/login.html",
@@ -72,13 +76,20 @@ app.run(function($localStorage) {
         }; 
     }
     if (typeof $localStorage.Funcionarios === 'undefined' || typeof $localStorage.Funcionarios.db === 'undefined' || $localStorage.Funcionarios.version !== 'v0.2')
-    { 
+    {
         $localStorage.Funcionarios = {
             nextID: 0,
             version: 'v0.2',
             sendTimestamp: 0,
             recvTimestamp: 0,
             remoteDelete: [],
+            db: {}
+        }; 
+    }
+    if (typeof $localStorage.Sessao === 'undefined' || typeof $localStorage.Sessao.db === 'undefined' || $localStorage.Sessao.version !== 'v0.1')
+    {
+        $localStorage.Sessao = {
+            version: 'v0.1',
             db: {}
         }; 
     }
@@ -113,6 +124,11 @@ app.run(function($localStorage) {
                 "icone": 'person_add',
                 "nome": 'Funcionários',
                 "href": 'funcionarios'
+            },{
+                "id": 5,
+                "icone": 'close',
+                "nome": 'Sair',
+                "href": 'sair'
             }
             ]
         }; 
@@ -121,94 +137,57 @@ app.run(function($localStorage) {
 
 // CONTROLLER PÁGINA DE LOGIN
 app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog, $mdToast) {
-
-    $scope.user = {
-        email: '',
-    };
     
-    
+    // Se for ação de desogar
+    if ( $location.path() == "/sair") {
+        $http.post('http://localhost/DoutorSofa/index.php/login/deslogar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) {
+            // sucesso!    
+            if (data.resposta == 1) {
+                $scope.erro = false;
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(data.mensagem)
+                    .position("top buttom")
+                    .hideDelay(3000)
+                );                  
+            } else {
+            }
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });          
+    } 
+        
+    // Se for ação de login
+    $scope.user = { email: '' };
     $scope.user.submit = function($event , user) {
         
         $event.preventDefault();
-        
-        if (user.username == 'luigi@hotmail.com' && user.password == 'Afokf!2394349' || user.username == 'luigimatheus@hotmail.com' && user.password == 'Afornalli!1997') {
+        var data = { username: user.username, password : user.password };
+        $http.post('http://localhost/DoutorSofa/index.php/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) {
+            // sucesso!    
+            if (data.resposta == 1) {
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('Admin master!')
+                    .textContent(data.mensagem)
                     .position("top buttom")
                     .hideDelay(3000)
-                );                      
-                $localStorage.UsuarioLogado.db = {};
-                $localStorage.UsuarioLogado.db.dados = {};
-                $localStorage.UsuarioLogado.db.dados.tipoUsuario = 3;
-                $location.path('/home').replace(); 
-             } else {
-             angular.forEach($localStorage.Funcionarios.db, function(value, key){
-             if(value.dados.email == user.username && value.dados.senha == user.password) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Autenticado com sucesso!')
-                    .position("top buttom")
-                    .hideDelay(3000)
-                );               
-                 $localStorage.UsuarioLogado.db = value;   
-                 $location.path('/home').replace();
-             } else if (user.username == 'luigi@hotmail.com' && user.password == 'Afokf!2394349' || user.username == 'luigimatheus@hotmail.com' && user.password == 'Afornalli!1997') {
-                 console.dir(value);
-                $localStorage.UsuarioLogado.db = value;   
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Admin master!')
-                    .position("top buttom")
-                    .hideDelay(3000)
-                );                   
-                $location.path('/home').replace(); 
-             } else {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Erro ao se autenticar!')
-                    .position("top buttom")
-                    .hideDelay(3000)
-                );             
-             }
-
-             });
-             }
-        
-    }
-    
-    /*$scope.user.submit = function(user)
-    {
-        var p = hex_sha512(user.password);
-        $http({
-            method: 'POST',
-            url: 'http://app.seyconel.com.br/apps/makelogin.php',
-            data: {
-                makelogin: 'true',
-                username: user.username,
-                password: '',
-                p: p
+                );                  
+                $localStorage.Sessao.db = data.sessao;
+                $location.path('/home').replace();
+            } else {
+                $scope.mensagemErro = data.mensagem;
+                $scope.erro = true;
             }
         })
-        .then(function successCallback(response)
-        {
-            console.log(response);
-            if (response.data.status == "ok")
-            {
-                if (response.data.logged === 'in')
-                    $location.path('/sincronizar').replace();
-                else
-                    $scope.msg = response.data.msg;
-            }
-            else if (response.data.status == "error")
-            {
-                $scope.msg = "Não foi possível logar! "+response.data.msg;
-            }
-            
-        }, function errorCallback(response){
-            $scope.msg = "Ocorreu um problema ao efetuar login: "+response.statusText;
-        });
-    }*/
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });    
+    }
 });
 
 // CONTROLLER DA HOME
@@ -238,39 +217,45 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     
     // inicia
     populaFuncionarios();
-    //console.dir($scope.funcionarios);
     
     // popula a variavel servicos 
     function populaFuncionarios($filtro)
     { 
-        var db = $localStorage.Funcionarios.db;
-        $scope.funcionarios = {}; 
-        
-        if ($filtro) {
-            for (var vist_key in db)
-            {
-                if (db.hasOwnProperty(vist_key))
-                {
-                    if (db[vist_key].status == $filtro)
-                        $scope.funcionarios[vist_key] = Object.create(db[vist_key]);
-                }
-            }
-        } else {
-            $scope.funcionarios = $localStorage.Funcionarios.db;
-        }
+        $http.post('http://localhost/DoutorSofa/index.php/login/listarUsuarios', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            $scope.funcionarios = data;
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });           
     }
     
     // deletar vistoria
-    $scope.deletarFuncionario = function ($id)
+    $scope.deletarFuncionario = function (funcionario)
     {
-        delete $localStorage.Funcionarios.db[$id]; 
-        populaServicos(0); 
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent('Funcionario deletado')
-            .position("top buttom")
-            .hideDelay(3000)
-        );
+        $http.post('http://localhost/DoutorSofa/index.php/login/deletar', funcionario, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            if (data.resposta == 1) {
+                populaFuncionarios(0); 
+                $mdDialog.hide();
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Funcionário deletado')
+                    .position("top right")
+                    .hideDelay(3000)
+                );
+            } else {
+                $scope.mensagemErro = data.mensagem;
+                $scope.erro = true;
+            }
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });    
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -321,6 +306,8 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
             
             // Verifica se os Form é de edição ou de adição de novo Item
             if (id_click > -1) {
+                                     
+                /*
                 // Edita o item
                 id = id_click;
                 $localStorage.Funcionarios.db[id].dados = $scope.item;
@@ -334,36 +321,30 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                     .textContent('Serviço editado')
                     .position("top right")
                     .hideDelay(3000)
-                );            
+                );    */        
             } else {
                 id = $localStorage.Funcionarios.nextID;
 
-                /* OBJETO
-                this.id = 0;
-                this.id_dono = '';
-                this.data_criacao = '';
-                this.dados = '';
-                */
-                item = new Funcionario(); 
-                item.id = id;
-                item.id_vistoria = id_dono;
-                item.data_criacao = timestampUTC();
-                item.modificado = item.data_criacao;
-                item.status = 0;
-                item.dados = $scope.item;
-
-                $localStorage.Funcionarios.db[id] = item;
-
-                id = id + 1; 
-                $localStorage.Funcionarios.nextID = id;
-                
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Franquado adicionado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );                
+                $http.post('http://localhost/DoutorSofa/index.php/login/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+                .success(function(data, status, headers, config) { 
+                    // sucesso!    
+                    if (data.resposta == 1) {
+                        $mdDialog.hide();
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Funcionário adicionado')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.mensagemErro = data.mensagem;
+                        $scope.erro = true;
+                    }
+                })
+                .error(function(data, status, headers, config) {
+                    // erro! 
+                    console.dir(data); 
+                });                      
             }
             populaFuncionarios(0); 
         };
@@ -422,9 +403,7 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
         } else {
             $scope.franquados = $localStorage.Franqueados.db;
         }
-    }
-    
-    console.dir($scope.franquados);    
+    } 
     
     // deletar vistoria
     $scope.deletarFranquado = function ($id)
@@ -545,6 +524,16 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
+    
+        $http.post('http://localhost/DoutorSofa/index.php/franquadora/index', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) {
+            // sucesso!    
+            console.dir(data); 
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });   
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
