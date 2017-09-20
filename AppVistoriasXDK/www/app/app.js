@@ -9,9 +9,9 @@ app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
         templateUrl : "paginas/home.html", 
 		controller  : 'homeController'
     })
-    .when("/franquados", {
-        templateUrl : "paginas/franquados.html", 
-		controller  : 'franquadosController'
+    .when("/franqueados", {
+        templateUrl : "paginas/franqueados.html", 
+		controller  : 'franqueadosController'
     })
     .when("/funcionarios", {
         templateUrl : "paginas/funcionarios.html", 
@@ -116,8 +116,8 @@ app.run(function($localStorage) {
             ,{
                 "id": 3,
                 "icone": 'business',
-                "nome": 'Franquiados',
-                "href": 'franquados'
+                "nome": 'Franqueados',
+                "href": 'franqueados'
             }
             ,{
                 "id": 4,
@@ -168,7 +168,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         var data = { username: user.username, password : user.password };
         $http.post('http://localhost/DoutorSofa/index.php/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .success(function(data, status, headers, config) {
-            // sucesso!    
+            // sucesso!     
             if (data.resposta == 1) {
                 $mdToast.show(
                     $mdToast.simple()
@@ -281,7 +281,16 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     // CONTROLLER TELA DOS FORMULÁRIOS
     function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
         $scope.myPictures = []; 
-        $scope.franquias = $localStorage.Franqueados.db;
+        
+        $http.post('http://localhost/DoutorSofa/index.php/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            $scope.franquias = data;
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });            
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
@@ -358,7 +367,7 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
 });
 
 // CONTROLLER DA HOME
-app.controller('franquadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+app.controller('franqueadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
      
     if ($localStorage.UsuarioLogado.db.dados.tipoUsuario != 3) { 
         $mdToast.show(
@@ -383,13 +392,13 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
     $scope.itensMenu = $localStorage.itensMenu.itens;
     
     // inicia
-    populaFranquados();
+    populaFranqueados();
     
     // popula a variavel servicos 
-    function populaFranquados($filtro)
+    function populaFranqueados($filtro)
     { 
-        var db = $localStorage.Franqueados.db;
-        $scope.franquados = {}; 
+        /*var db = $localStorage.Franqueados.db;
+        $scope.franqueados = {}; 
         
         if ($filtro) {
             for (var vist_key in db)
@@ -397,25 +406,48 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
                 if (db.hasOwnProperty(vist_key))
                 {
                     if (db[vist_key].status == $filtro)
-                        $scope.franquados[vist_key] = Object.create(db[vist_key]);
+                        $scope.franqueados[vist_key] = Object.create(db[vist_key]);
                 }
             }
         } else {
-            $scope.franquados = $localStorage.Franqueados.db;
-        }
+            $scope.franqueados = $localStorage.Franqueados.db;
+        }*/
+        $http.post('http://localhost/DoutorSofa/index.php/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            $scope.franqueados = data;
+            console.dir(data); 
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });          
     } 
     
     // deletar vistoria
-    $scope.deletarFranquado = function ($id)
+    $scope.deletarFranqueado = function (franqueado)
     {
-        delete $localStorage.Franqueados.db[$id]; 
-        populaServicos(0); 
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent('Franqueado deletado')
-            .position("top buttom")
-            .hideDelay(3000)
-        );
+        $http.post('http://localhost/DoutorSofa/index.php/franqueado/deletar', franqueado, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            if (data.resposta == 1) {
+                populaFranqueados(0); 
+                $mdDialog.hide();
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Funcionário deletado')
+                    .position("top right")
+                    .hideDelay(3000)
+                );
+            } else {
+                $scope.mensagemErro = data.mensagem;
+                $scope.erro = true;
+            }
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });    
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -423,14 +455,14 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
         $mdDialog
             .show({
             controller: DialogController,
-            templateUrl: 'formulario-franquado.tmpl.html',
+            templateUrl: 'formulario-franqueado.tmpl.html',
             id_dono: $scope.id_dono,
             id_click: id_click,
             locals: {
                 tiposVistorias: $scope.tiposVistorias
             },
             bindToController: true,
-            onRemoving: function() { populaFranquados(0); },
+            onRemoving: function() { populaFranqueados(0); },
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose:true,
@@ -482,41 +514,35 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
             } else {
                 id = $localStorage.Franqueados.nextID;
 
-                /* OBJETO
-                this.id = 0;
-                this.id_dono = '';
-                this.data_criacao = '';
-                this.dados = '';
-                */
-                item = new Franqueado(); 
-                item.id = id;
-                item.id_vistoria = id_dono;
-                item.data_criacao = timestampUTC();
-                item.modificado = item.data_criacao;
-                item.status = 0;
-                item.dados = $scope.item;
-
-                $localStorage.Franqueados.db[id] = item;
-
-                id = id + 1; 
-                $localStorage.Franqueados.nextID = id;
-                
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Franquado adicionado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );                
+                $http.post('http://localhost/DoutorSofa/index.php/franqueado/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+                .success(function(data, status, headers, config) { 
+                    // sucesso!    
+                    if (data.resposta == 1) {
+                        $mdDialog.hide();
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Franqueado adicionado')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.mensagemErro = data.mensagem;
+                        $scope.erro = true;
+                    }
+                }) 
+                .error(function(data, status, headers, config) {
+                    // erro! 
+                    console.dir(data); 
+                });           
             }
-            populaFranquados(0); 
+            populaFranqueados(0); 
         };
         
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
     }
-        
+         
     
 });
 
@@ -524,16 +550,6 @@ app.controller('franquadosController', function($scope, $routeParams, $http, $lo
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
     
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
-    
-        $http.post('http://localhost/DoutorSofa/index.php/franquadora/index', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) {
-            // sucesso!    
-            console.dir(data); 
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
-        });   
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
@@ -574,34 +590,41 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     // popula a variavel servicos 
     function populaServicos($filtro)
     { 
-        var db = $localStorage.Servicos.db;
-        $scope.servicos = {}; 
-        
-        if ($filtro) {
-            for (var vist_key in db)
-            {
-                if (db.hasOwnProperty(vist_key))
-                {
-                    if (db[vist_key].status == $filtro)
-                        $scope.servicos[vist_key] = Object.create(db[vist_key]);
-                }
-            }
-        } else {
-            $scope.servicos = $localStorage.Servicos.db;
-        }
+        $http.post('http://localhost/DoutorSofa/index.php/servico/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            $scope.servicos = data;
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        });   
     }
     
     // deletar vistoria
-    $scope.deletarServico = function ($id)
+    $scope.deletarServico = function (servico)
     {
-        delete $localStorage.Servicos.db[$id]; 
-        populaServicos(0); 
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent('Serviço deletado')
-            .position("top buttom")
-            .hideDelay(3000)
-        );
+        $http.post('http://localhost/DoutorSofa/index.php/servico/deletar', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .success(function(data, status, headers, config) { 
+            // sucesso!    
+            if (data.resposta == 1) {
+                populaServicos(0);
+                $mdDialog.hide();
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Funcionário deletado')
+                    .position("top right")
+                    .hideDelay(3000)    
+                );
+            } else {
+                $scope.mensagemErro = data.mensagem;
+                $scope.erro = true;
+            }
+        })
+        .error(function(data, status, headers, config) {
+            // erro! 
+            console.dir(data); 
+        }); 
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -610,7 +633,6 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             .show({
             controller: DialogController,
             templateUrl: 'formulario-servico.tmpl.html',
-            id_dono: $scope.id_dono,
             id_click: id_click,
             locals: {
                 tiposVistorias: $scope.tiposVistorias
@@ -625,15 +647,23 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     };
 
     // CONTROLLER TELA DOS FORMULÁRIOS
-    function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
+    function DialogController($scope, $mdDialog, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
         $scope.myPictures = []; 
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
         {
             $scope.item = {};
-            $scope.item = $localStorage.Servicos.db[id_click].dados;
-            $scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
+            $http.post('http://localhost/DoutorSofa/index.php/servico/detalha', id_click, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .success(function(data, status, headers, config) { 
+                // sucesso!    
+                $scope.item = data;
+            })
+            .error(function(data, status, headers, config) {
+                // erro! 
+                console.dir(data); 
+            });             
+            //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
             // Pega os valores booleanos que estão em string e coverte novamente.
             angular.forEach($scope.item, function(value, key) {
@@ -699,34 +729,27 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             } else {
                 id = $localStorage.Servicos.nextID;
 
-                /* OBJETO
-                this.id = 0;
-                this.id_dono = '';
-                this.data_criacao = '';
-                this.dados = '';
-                */
-                item = new Servicos(); 
-                item.id = id;
-                item.id_vistoria = id_dono;
-                item.data_criacao = timestampUTC();
-                item.modificado = item.data_criacao;
-                item.status = 0;
-                
-                item.fotos64 = $scope.myPictures;
-                item.dados = $scope.item;
-
-                $localStorage.Servicos.db[id] = item;
-
-                id = id + 1; 
-                $localStorage.Servicos.nextID = id;
-                
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Serviço adicionado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );                
+                $http.post('http://localhost/DoutorSofa/index.php/servico/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+                .success(function(data, status, headers, config) { 
+                    // sucesso!    
+                    if (data.resposta == 1) {
+                        $mdDialog.hide();
+                        populaServicos();
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Serviço adicionado')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.mensagemErro = data.mensagem;
+                        $scope.erro = true;
+                    }
+                })
+                .error(function(data, status, headers, config) {
+                    // erro! 
+                    console.dir(data); 
+                });                   
             }
             populaServicos(0); 
         };
