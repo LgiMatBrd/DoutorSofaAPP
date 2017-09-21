@@ -1,2 +1,0 @@
-# ProjetoJ
-Desenvolvimento de CMS
