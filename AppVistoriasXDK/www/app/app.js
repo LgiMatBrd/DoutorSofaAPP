@@ -41,7 +41,7 @@ app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider, $httpProv
         .defaultIconSet('img/icons/sets/core-icons.svg', 24);
     
     $mdThemingProvider.theme('default')
-          .primaryPalette('yellow')
+          .primaryPalette('yellow', { 'default': 'A700' })
           .accentPalette('grey');
 });
 
