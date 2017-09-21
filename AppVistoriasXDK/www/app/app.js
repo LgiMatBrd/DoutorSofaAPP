@@ -141,8 +141,9 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
     // Se for ação de desogar
     if ( $location.path() == "/sair") {
         $http.post('http://api.doutorsofa.com.br/login/deslogar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) {
-            // sucesso!    
+        .then(function(response) {
+            // sucesso!
+            data = response.data;
             if (data.resposta == 1) {
                 $scope.erro = false;
                 $mdToast.show(
@@ -153,10 +154,6 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                 );                  
             } else {
             }
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });          
     } 
         
@@ -167,8 +164,9 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         $event.preventDefault();
         var data = { username: user.username, password : user.password };
         $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) {
+        .then(function(response) {
             // sucesso!     
+            data = response.data;
             if (data.resposta == 1) {
                 $mdToast.show(
                     $mdToast.simple()
@@ -186,10 +184,6 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .hideDelay(3000)
                 );   
             }
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });    
     }
 });
@@ -226,13 +220,10 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     function populaFuncionarios($filtro)
     { 
         $http.post('http://api.doutorsofa.com.br/login/listarUsuarios', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
+        .then(function(response) { 
             // sucesso!    
+            data = response.data;
             $scope.funcionarios = data;
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });           
     }
     
@@ -240,8 +231,9 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     $scope.deletarFuncionario = function (funcionario)
     {
         $http.post('http://api.doutorsofa.com.br/login/deletar', funcionario, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
-            // sucesso!    
+        .then(function(response) { 
+            // sucesso!   
+            data = response.data; 
             if (data.resposta == 1) {
                 populaFuncionarios(0); 
                 $mdDialog.hide();
@@ -255,10 +247,6 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });    
     };
     
@@ -287,13 +275,10 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
         $scope.myPictures = []; 
         
         $http.post('http://api.doutorsofa.com.br/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
+        .then(function(response) { 
             // sucesso!    
+            data = response.data;
             $scope.franquias = data;
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });            
         
         // Verifica se o usuário quer editar o item.
@@ -339,8 +324,9 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                 id = $localStorage.Funcionarios.nextID;
 
                 $http.post('http://api.doutorsofa.com.br/login/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .success(function(data, status, headers, config) { 
+                .then(function(response) { 
                     // sucesso!    
+                    data = response.data;
                     if (data.resposta == 1) {
                         $mdDialog.hide();
                         $mdToast.show(
@@ -353,10 +339,6 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                })
-                .error(function(data, status, headers, config) {
-                    // erro! 
-                    console.dir(data); 
                 });                      
             }
             populaFuncionarios(0); 
@@ -417,14 +399,10 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
             $scope.franqueados = $localStorage.Franqueados.db;
         }*/
         $http.post('http://api.doutorsofa.com.br/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
+        .then(function(response) { 
             // sucesso!    
+            data = response.data;
             $scope.franqueados = data;
-            console.dir(data); 
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });          
     } 
     
@@ -432,8 +410,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
     $scope.deletarFranqueado = function (franqueado)
     {
         $http.post('http://api.doutorsofa.com.br/franqueado/deletar', franqueado, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
-            // sucesso!    
+        .then(function(response) { 
+            // sucesso!
+            data = response.data;
             if (data.resposta == 1) {
                 populaFranqueados(0); 
                 $mdDialog.hide();
@@ -447,10 +426,6 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });    
     };
     
@@ -519,8 +494,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
                 id = $localStorage.Franqueados.nextID;
 
                 $http.post('http://api.doutorsofa.com.br/franqueado/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .success(function(data, status, headers, config) { 
+                .then(function(response) { 
                     // sucesso!    
+                    data = response.data;
                     if (data.resposta == 1) {
                         $mdDialog.hide();
                         $mdToast.show(
@@ -533,10 +509,6 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                }) 
-                .error(function(data, status, headers, config) {
-                    // erro! 
-                    console.dir(data); 
                 });           
             }
             populaFranqueados(0); 
@@ -595,13 +567,10 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     function populaServicos($filtro)
     { 
         $http.post('http://api.doutorsofa.com.br/servico/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
+        .then(function(response) { 
             // sucesso!    
+            data = response.data;
             $scope.servicos = data;
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         });   
     }
     
@@ -609,8 +578,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     $scope.deletarServico = function (servico)
     {
         $http.post('http://api.doutorsofa.com.br/servico/deletar', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .success(function(data, status, headers, config) { 
-            // sucesso!    
+        .then(function(response) { 
+            // sucesso!  
+            data = response.data;  
             if (data.resposta == 1) {
                 populaServicos(0);
                 $mdDialog.hide();
@@ -624,10 +594,6 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        })
-        .error(function(data, status, headers, config) {
-            // erro! 
-            console.dir(data); 
         }); 
     };
     
@@ -659,13 +625,10 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         {
             $scope.item = {};
             $http.post('http://api.doutorsofa.com.br/servico/detalha', id_click, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-            .success(function(data, status, headers, config) { 
+            .then(function(response) { 
                 // sucesso!    
+                data = response.data;
                 $scope.item = data;
-            })
-            .error(function(data, status, headers, config) {
-                // erro! 
-                console.dir(data); 
             });             
             //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
@@ -734,8 +697,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 id = $localStorage.Servicos.nextID;
 
                 $http.post('http://api.doutorsofa.com.br/servico/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .success(function(data, status, headers, config) { 
+                .then(function(response) { 
                     // sucesso!    
+                    data = response.data;
                     if (data.resposta == 1) {
                         $mdDialog.hide();
                         populaServicos();
@@ -749,10 +713,6 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                })
-                .error(function(data, status, headers, config) {
-                    // erro! 
-                    console.dir(data); 
                 });                   
             }
             populaServicos(0); 
