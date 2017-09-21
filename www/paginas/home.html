@@ -137,12 +137,12 @@
 
                 <md-input-container style="width: 100% !important;">
                 <label>Data</label>
-                    <md-datepicker ng-model="item.data" md-placeholder="Insira uma data"></md-datepicker>                    
+                    <md-datepicker ng-model="item.data" md-placeholder="Insira uma data" ng-required="required"></md-datepicker>                    
                 </md-input-container>
                   
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                     <label>Tipo de serviço</label>
-                    <md-select ng-model="item.tipoServico">
+                    <md-select ng-model="item.tipoServico" ng-required="required">
                       <md-option value="1">Estofado(s)</md-option>
                       <md-option value="2">Tapete(s)</md-option>
                       <md-option value="3">Colchão</md-option>
@@ -150,37 +150,37 @@
                     </md-select>
                 </md-input-container>                  
                   
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                 <label>Endereço</label>
                 <input ng-model="item.endereco" />
                 </md-input-container>
 
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                 <label>Horário</label>
                 <input ng-model="item.horario" />
                 </md-input-container>
                   
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                 <label>Nome do cliente</label>
                 <input ng-model="item.nome" />
                 </md-input-container>
                   
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                 <label>Telefone do cliente</label>
                 <input ng-model="item.telefone" />
                 </md-input-container>
 
-                <md-input-container class="md-block" required>
+                <md-input-container class="md-block">
                   <label>Serviço</label>
                   <textarea ng-model="item.servico" md-maxlength="150" rows="5" md-select-on-focus=""></textarea>
                 </md-input-container>
                   
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                 <label>Preço</label>
                 <input ng-model="item.preco" />
                 </md-input-container>
 
-                <md-input-container class="md-block" flex-gt-sm="" required>
+                <md-input-container class="md-block" flex-gt-sm="">
                     <label>Tipo do pagamento</label>
                     <md-select ng-model="item.tipoPagamento">
                       <md-option value="1">Dinheiro</md-option>
