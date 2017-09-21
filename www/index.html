@@ -1,0 +1,46 @@
+<html lang="pt-BR" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+  <!-- Angular Material CSS -->
+  <link rel="stylesheet" href="./css/angular-material.min.css">
+  <link rel="stylesheet" href="./css/font-awesome.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+  <link href="./css/Icones-Material.css" rel="stylesheet">
+</head>
+<body ng-app="DoutorSofaAPP" ng-cloak>
+    
+    <img id="spinner" ng-src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" style="display:none;">
+    <div ng-view></div>
+
+ 
+    <!-- Cordova -->  
+    <script src="cordova.js"></script>
+    <!-- AngularJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-messages.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js"></script> 
+    <script src="./js/svg-assets-cache.js"></script>
+    <script src="./js/ngStorage.min.js"></script>
+    <script src="./js/ng-cordova.min.js"></script>
+    
+    <!-- Angular Material -->
+    <script src="./js/angular-material.min.js"></script>
+    <script src="./js/angular-material-icons.min.js"></script> 
+    
+    <!-- JS Adicional -->
+    <script src="app/comeplementar.js"></script>
+    <script src="app/app.js"></script>     
+</body>
+    <style>
+    .md-button {
+        min-width: 1% !important;
+    }
+    md-toolbar {
+        padding-top: 3% !important;
+    }
+    </style>
+</html>
