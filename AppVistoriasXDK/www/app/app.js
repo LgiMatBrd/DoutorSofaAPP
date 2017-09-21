@@ -3,7 +3,10 @@
 var app = angular.module('DoutorSofaAPP', ['ngRoute','ngStorage','ngMaterial','ngMessages', 'material.svgAssetsCache', 'ngCordova']);
 
 // CONFIGURA ROTAS E OUTRAS FUNÇÕES
-app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider) {
+app.config(function($routeProvider,$mdIconProvider,$mdThemingProvider, $httpProvider) {
+    
+    $httpProvider.interceptors.push('FadeCarregando');
+    
     $routeProvider
     .when("/home", {
         templateUrl : "paginas/home.html", 
@@ -774,3 +777,18 @@ app.filter('iif', function () {
         return input ? trueValue : falseValue;
    };
 });
+
+app.factory('FadeCarregando', [function() {  
+    var FadeCarregando = {
+        request: function(config) {
+            console.dir('request');
+            config.requestTimestamp = new Date().getTime();
+            return config;
+        },
+        response: function(response) {
+            response.config.responseTimestamp = new Date().getTime();
+            return response;
+        }
+    };
+    return FadeCarregando;
+}]);
