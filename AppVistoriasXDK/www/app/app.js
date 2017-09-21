@@ -179,8 +179,12 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                 $localStorage.Sessao.db = data.sessao;
                 $location.path('/home').replace();
             } else {
-                $scope.mensagemErro = data.mensagem;
-                $scope.erro = true;
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(data.mensagem)
+                    .position("top buttom")
+                    .hideDelay(3000)
+                );   
             }
         })
         .error(function(data, status, headers, config) {
