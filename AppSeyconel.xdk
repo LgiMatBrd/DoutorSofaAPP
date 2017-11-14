@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "82606458-0726-45b5-b3d1-bea1407cd611",
-      "lastModifiedDate": 1504724526677,
+      "lastModifiedDate": 1510679425155,
       "creationDate": 1488809141554
     },
     "XDK-app-designer": "false",
@@ -154,14 +154,14 @@
         "runtime_": "Crosswalk with Cordova 3.x",
         "name_": "Android",
         "preferences_": {
-          "android-minSdkVersion": "14",
+          "android-minSdkVersion": "16",
           "android-targetSdkVersion": "21",
           "android-installLocation": "internalOnly",
           "android-signed": true,
           "AndroidLaunchMode": "singleTop"
         },
         "isActive_": true,
-        "certificateId_": "WN954LLJv0Oo3AABAriLWA2",
+        "certificateId_": "",
         "appName_": "Doutor Sofá",
         "appID_": "doutor.sofa.app",
         "appAccess_": {
@@ -283,7 +283,7 @@
           "ios-configuration": "adhoc",
           "deployment-target": "8.0"
         },
-        "isActive_": true,
+        "isActive_": false,
         "certificateId_": "",
         "appName_": "Doutor Sofá",
         "appID_": "doutor.sofa.app",
@@ -324,7 +324,7 @@
           "windows-publisher-display-name": "",
           "windows-publisher-id": ""
         },
-        "isActive_": true,
+        "isActive_": false,
         "certificateId_": "",
         "appName_": "Doutor Sofá",
         "appID_": "doutor.sofa.app",
@@ -352,7 +352,7 @@
         "crosswalkVersion_": "19",
         "appAuthor_": "Aplicativo para controle de serviços Doutor Sofá",
         "appVersion_": "0.0.1",
-        "appDescription_": "Aplicativo para controle de vistorias Seyconel."
+        "appDescription_": "Aplicativo para controle de franqueados."
       },
       "WebApp": {
         "platform_": "webapp",
@@ -386,7 +386,7 @@
         "preferences_": {},
         "isActive_": false,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
+        "appName_": "Doutor Sofá",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -461,7 +461,7 @@
         "preferences_": {},
         "isActive_": true,
         "certificateId_": "",
-        "appName_": "AppSeyconel",
+        "appName_": "Doutor Sofá",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",

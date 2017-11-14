@@ -5,7 +5,7 @@
 <intelxdk:version value="1.1"/>
 <intelxdk:cordova-cli version="6.2.0"/>
 <name>Doutor Sofá</name>
-<description>Aplicativo para controle de vistorias Seyconel.</description>
+<description>Aplicativo para controle de franqueados.</description>
 <author>Aplicativo para controle de serviços Doutor Sofá</author>
 <content src="index.html"/>
 <access origin="*"/>
