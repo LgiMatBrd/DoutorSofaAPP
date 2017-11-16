@@ -234,17 +234,21 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     // popula a variavel servicos 
     function populaFuncionarios($filtro)
     { 
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/login/listarUsuarios', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!    
             data = response.data;
             $scope.funcionarios = data;
-        });           
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });          
     }
     
     // deletar vistoria
     $scope.deletarFuncionario = function (funcionario)
     {
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/login/deletar', funcionario, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!   
@@ -262,7 +266,9 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        });    
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });  
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -289,12 +295,15 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     function DialogController($scope, $mdDialog, id_dono, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
         $scope.myPictures = []; 
         
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!    
             data = response.data;
             $scope.franquias = data;
-        });            
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });          
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
@@ -338,8 +347,9 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
             } else {
                 id = $localStorage.Funcionarios.nextID;
 
+                $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/login/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .then(function(response) { 
+                .then(function(response) {
                     // sucesso!    
                     data = response.data;
                     if (data.resposta == 1) {
@@ -354,7 +364,9 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                });                      
+                }).finally(function() {
+                    $rootScope.LayerCarregando = false;   
+                });         
             }
             populaFuncionarios(0); 
         };
@@ -415,17 +427,21 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
         } else {
             $scope.franqueados = $localStorage.Franqueados.db;
         }*/
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/franqueado/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!    
             data = response.data;
             $scope.franqueados = data;
-        });          
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });       
     } 
     
     // deletar vistoria
     $scope.deletarFranqueado = function (franqueado)
     {
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/franqueado/deletar', franqueado, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!
@@ -443,7 +459,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        });    
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -510,8 +528,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
             } else {
                 id = $localStorage.Franqueados.nextID;
 
+                $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/franqueado/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .then(function(response) { 
+                .then(function(response) {
                     // sucesso!    
                     data = response.data;
                     if (data.resposta == 1) {
@@ -526,7 +545,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                });           
+                }).finally(function() {
+                    $rootScope.LayerCarregando = false;   
+                });         
             }
             populaFranqueados(0); 
         };
@@ -585,17 +606,21 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     // popula a variavel servicos 
     function populaServicos($filtro)
     { 
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/servico/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!    
             data = response.data;
             $scope.servicos = data;
-        });   
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });
     }
     
     // deletar vistoria
     $scope.deletarServico = function (servico)
     {
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/servico/deletar', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
             // sucesso!  
@@ -613,7 +638,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $scope.mensagemErro = data.mensagem;
                 $scope.erro = true;
             }
-        }); 
+        }).finally(function() {
+            $rootScope.LayerCarregando = false;   
+        });
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -643,6 +670,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         if (id_click > -1)
         { 
             $scope.item = {};
+            $rootScope.LayerCarregando = true;
             $http.post('http://api.doutorsofa.com.br/servico/detalha', id_click, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
             .then(function(response) { 
                 // sucesso!    
@@ -652,6 +680,8 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 $scope.item.data = new Date($scope.item.data);
                 
                 console.dir($scope.item);
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
             });             
             //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
@@ -703,6 +733,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             // Verifica se os Form é de edição ou de adição de novo Item
             if (id_click > -1) {
                 // Edita o item
+                $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/servico/editar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
                 .then(function(response) { 
                     // sucesso!    
@@ -720,11 +751,14 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                });            
+                }).finally(function() {
+                    $rootScope.LayerCarregando = false;   
+                });
                 
             } else {
                 id = $localStorage.Servicos.nextID;
 
+                $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/servico/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
                 .then(function(response) { 
                     // sucesso!    
@@ -742,7 +776,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
                     }
-                });                   
+                }).finally(function() {
+                    $rootScope.LayerCarregando = false;   
+                });                  
             }
             populaServicos(0); 
         };
