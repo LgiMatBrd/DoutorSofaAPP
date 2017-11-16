@@ -625,13 +625,17 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
-        {
+        { 
             $scope.item = {};
             $http.post('http://api.doutorsofa.com.br/servico/detalha', id_click, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
             .then(function(response) { 
                 // sucesso!    
                 data = response.data;
-                $scope.item = data;
+                $scope.item = data[0];
+                
+                $scope.item.data = new Date($scope.item.data);
+                
+                console.dir($scope.item);
             });             
             //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
@@ -683,19 +687,25 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             // Verifica se os Form é de edição ou de adição de novo Item
             if (id_click > -1) {
                 // Edita o item
-                id = id_click;
-                $localStorage.Servicos.db[id].dados = $scope.item;
-                $localStorage.Servicos.db[id].fotos64 = $scope.myPictures;
-                $localStorage.Servicos.db[id].modificado = timestampUTC();
+                $http.post('http://api.doutorsofa.com.br/servico/editar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+                .then(function(response) { 
+                    // sucesso!    
+                    data = response.data;
+                    if (data.resposta == 1) {
+                        $mdDialog.hide();
+                        populaServicos();
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Serviço editado!')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.mensagemErro = data.mensagem;
+                        $scope.erro = true;
+                    }
+                });            
                 
-                $mdDialog.hide();
-                
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Serviço editado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );            
             } else {
                 id = $localStorage.Servicos.nextID;
 
