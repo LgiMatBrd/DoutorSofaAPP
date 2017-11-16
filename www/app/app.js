@@ -136,13 +136,18 @@ app.run(function($localStorage) {
             ]
         }; 
     }
+    
+    $localStorage.LayerCarregando = false;
 });
 
 // CONTROLLER PÁGINA DE LOGIN
-app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog, $mdToast) {
+app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog, $mdToast, $rootScope) {
+    
+    $rootScope.LayerCarregando = $localStorage.LayerCarregando;
     
     // Se for ação de desogar
     if ( $location.path() == "/sair") {
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/login/deslogar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) {
             // sucesso!
@@ -154,8 +159,10 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .textContent(data.mensagem)
                     .position("top buttom")
                     .hideDelay(3000)
-                );                  
+                );                
+                $rootScope.LayerCarregando = false;  
             } else {
+                $rootScope.LayerCarregando = false;
             }
         });          
     } 
@@ -166,6 +173,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         
         $event.preventDefault();
         var data = { username: user.username, password : user.password };
+        $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) {
             // sucesso!     
@@ -176,7 +184,8 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .textContent(data.mensagem)
                     .position("top buttom")
                     .hideDelay(3000)
-                );                  
+                );       
+                $rootScope.LayerCarregando = false;
                 $localStorage.Sessao.db = data.sessao;
                 $location.path('/home').replace();
             } else {
@@ -185,14 +194,17 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .textContent(data.mensagem)
                     .position("top buttom")
                     .hideDelay(3000)
-                );   
+                );
+                $rootScope.LayerCarregando = false;   
             }
         });    
     }
 });
 
 // CONTROLLER DA HOME
-app.controller('funcionariosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+app.controller('funcionariosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast, $rootScope) {
+    
+    $rootScope.LayerCarregando = $localStorage.LayerCarregando;
     
     /*if ($localStorage.UsuarioLogado.db.dados.tipoUsuario == 1) { 
         $mdToast.show(
@@ -356,8 +368,10 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
 });
 
 // CONTROLLER DA HOME
-app.controller('franqueadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+app.controller('franqueadosController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast, $rootScope) {
      
+    $rootScope.LayerCarregando = $localStorage.LayerCarregando;
+    
     /*if ($localStorage.UsuarioLogado.db.dados.tipoUsuario != 3) { 
         $mdToast.show(
             $mdToast.simple()
@@ -526,7 +540,9 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
 });
 
 // CONTROLLER DA HOME
-app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast) {
+app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast, $rootScope) {
+    
+    $rootScope.LayerCarregando = $localStorage.LayerCarregando;
     
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
     
