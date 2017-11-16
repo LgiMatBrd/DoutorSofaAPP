@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "82606458-0726-45b5-b3d1-bea1407cd611",
-      "lastModifiedDate": 1510679425155,
+      "lastModifiedDate": 1510682850933,
       "creationDate": 1488809141554
     },
     "XDK-app-designer": "false",
@@ -162,7 +162,7 @@
         },
         "isActive_": true,
         "certificateId_": "",
-        "appName_": "Doutor Sofá",
+        "appName_": "Doutor Sofa",
         "appID_": "doutor.sofa.app",
         "appAccess_": {
           "mode": "whitelist",
@@ -269,10 +269,10 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "6.2.0",
         "crosswalkVersion_": "19",
-        "appVersion_": "0.0.1",
+        "appVersion_": "0.0.3",
         "appDescription_": "Aplicativo para controle de serviços Doutor Sofá",
         "appAuthor_": "Luigi Matheus Afornalli Breda",
-        "appVersionCode_": "1",
+        "appVersionCode_": "2",
         "signed_": true
       },
       "iOS": {

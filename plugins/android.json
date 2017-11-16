@@ -29,6 +29,12 @@
     "dependent_plugins": {
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     }
 }
