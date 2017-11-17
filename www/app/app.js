@@ -246,29 +246,39 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     }
     
     // deletar vistoria
-    $scope.deletarFuncionario = function (funcionario)
-    {
-        $rootScope.LayerCarregando = true;
-        $http.post('http://api.doutorsofa.com.br/login/deletar', funcionario, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .then(function(response) { 
-            // sucesso!   
-            data = response.data; 
-            if (data.resposta == 1) {
-                populaFuncionarios(0); 
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Funcionário deletado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );
-            } else {
-                $scope.mensagemErro = data.mensagem;
-                $scope.erro = true;
-            }
-        }).finally(function() {
-            $rootScope.LayerCarregando = false;   
-        });  
+    $scope.deletarFuncionario = function (ev, funcionario)
+    {        
+        var confirm = $mdDialog.confirm()
+              .title('Você tem certeza?')
+              .textContent('Esta ação é irreversível.')
+              .targetEvent(ev)
+              .ok('SIM')
+              .cancel('CANCELAR');
+
+        $mdDialog.show(confirm).then(function() {
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/login/deletar', funcionario, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) { 
+                // sucesso!   
+                data = response.data; 
+                if (data.resposta == 1) {
+                    populaFuncionarios(0); 
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Funcionário deletado')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+                } else {
+                    $scope.mensagemErro = data.mensagem;
+                    $scope.erro = true;
+                }
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
+            });  
+        }, function() {
+        }); 
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -439,29 +449,39 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
     } 
     
     // deletar vistoria
-    $scope.deletarFranqueado = function (franqueado)
-    {
-        $rootScope.LayerCarregando = true;
-        $http.post('http://api.doutorsofa.com.br/franqueado/deletar', franqueado, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .then(function(response) { 
-            // sucesso!
-            data = response.data;
-            if (data.resposta == 1) {
-                populaFranqueados(0); 
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Funcionário deletado')
-                    .position("top right")
-                    .hideDelay(3000)
-                );
-            } else {
-                $scope.mensagemErro = data.mensagem;
-                $scope.erro = true;
-            }
-        }).finally(function() {
-            $rootScope.LayerCarregando = false;   
-        });
+    $scope.deletarFranqueado = function (ev, franqueado)
+    {        
+        var confirm = $mdDialog.confirm()
+              .title('Você tem certeza?')
+              .textContent('Esta ação é irreversível.')
+              .targetEvent(ev)
+              .ok('SIM')
+              .cancel('CANCELAR');
+
+        $mdDialog.show(confirm).then(function() {
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/franqueado/deletar', franqueado, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) { 
+                // sucesso!
+                data = response.data;
+                if (data.resposta == 1) {
+                    populaFranqueados(0); 
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Funcionário deletado')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+                } else {
+                    $scope.mensagemErro = data.mensagem;
+                    $scope.erro = true;
+                }
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
+            });
+        }, function() {
+        }); 
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
@@ -617,30 +637,58 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         });
     }
     
+  $scope.showConfirm = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+          .title('Would you like to delete your debt?')
+          .textContent('All of the banks have agreed to forgive you your debts.')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('Please do it!')
+          .cancel('Sounds like a scam');
+
+    $mdDialog.show(confirm).then(function() {
+      $scope.status = 'You decided to get rid of your debt.';
+    }, function() {
+      $scope.status = 'You decided to keep your debt.';
+    });
+  };
+    
     // deletar vistoria
-    $scope.deletarServico = function (servico)
+    $scope.deletarServico = function (ev, servico)
     {
-        $rootScope.LayerCarregando = true;
-        $http.post('http://api.doutorsofa.com.br/servico/deletar', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .then(function(response) { 
-            // sucesso!  
-            data = response.data;  
-            if (data.resposta == 1) {
-                populaServicos(0);
-                $mdDialog.hide();
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Funcionário deletado')
-                    .position("top right")
-                    .hideDelay(3000)    
-                );
-            } else {
-                $scope.mensagemErro = data.mensagem;
-                $scope.erro = true;
-            }
-        }).finally(function() {
-            $rootScope.LayerCarregando = false;   
-        });
+        var confirm = $mdDialog.confirm()
+              .title('Você tem certeza?')
+              .textContent('Esta ação é irreversível.')
+              .targetEvent(ev)
+              .ok('SIM')
+              .cancel('CANCELAR');
+
+        $mdDialog.show(confirm).then(function() {
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/servico/deletar', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) { 
+                // sucesso!  
+                data = response.data;  
+                if (data.resposta == 1) {
+                    populaServicos(0);
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Funcionário deletado')
+                        .position("top right")
+                        .hideDelay(3000)    
+                    );
+                } else {
+                    $scope.mensagemErro = data.mensagem;
+                    $scope.erro = true;
+                }
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
+            });
+        }, function() {
+        });        
+
     };
     
     // CONTROLA A TELA DOS FORMULÁRIOS
