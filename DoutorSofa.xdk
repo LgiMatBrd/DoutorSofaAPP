@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "82606458-0726-45b5-b3d1-bea1407cd611",
-      "lastModifiedDate": 1510682850933,
+      "lastModifiedDate": 1510939665841,
       "creationDate": 1488809141554
     },
     "XDK-app-designer": "false",
@@ -209,60 +209,25 @@
         ],
         "splashes_": [
           {
-            "relPath": "package-assets/426x320.png",
-            "density": "ldpi",
-            "height": 320,
-            "width": 426,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "package-assets/470x320.png",
-            "density": "mdpi",
-            "height": 320,
-            "width": 470,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "package-assets/640x480.png",
-            "density": "hdpi",
-            "height": 480,
-            "width": 640,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "package-assets/960x720.png",
-            "density": "xhdpi",
-            "height": 720,
-            "width": 960,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "package-assets/320x426.png",
+            "relPath": "package-assets/splashscreens/android/320x426.png",
             "density": "ldpi",
             "height": 426,
             "width": 320,
             "orientation": "portrait"
           },
           {
-            "relPath": "package-assets/320x470.png",
+            "relPath": "package-assets/splashscreens/android/320x470.png",
             "density": "mdpi",
             "height": 470,
             "width": 320,
             "orientation": "portrait"
           },
           {
-            "relPath": "package-assets/480x640.png",
-            "density": "hdpi",
-            "height": 640,
-            "width": 480,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "package-assets/720x960.png",
+            "relPath": "package-assets/splashscreens/apple/paisagem/1024x768.png",
             "density": "xhdpi",
-            "height": 960,
-            "width": 720,
-            "orientation": "portrait"
+            "height": 720,
+            "width": 960,
+            "orientation": "landscape"
           }
         ],
         "addlPermissions_": "",
@@ -272,7 +237,7 @@
         "appVersion_": "0.0.3",
         "appDescription_": "Aplicativo para controle de serviços Doutor Sofá",
         "appAuthor_": "Luigi Matheus Afornalli Breda",
-        "appVersionCode_": "2",
+        "appVersionCode_": "3",
         "signed_": true
       },
       "iOS": {

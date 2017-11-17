@@ -731,7 +731,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             }).finally(function() {
                 $rootScope.LayerCarregando = false;   
             });             
-            //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
+            $scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
             // Pega os valores booleanos que estão em string e coverte novamente.
             angular.forEach($scope.item, function(value, key) {
@@ -807,9 +807,11 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             } else {
                 id = $localStorage.Servicos.nextID;
 
+                $scope.item.fotos = $scope.myPictures;
+                
                 $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/servico/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-                .then(function(response) { 
+                .then(function(response) {
                     // sucesso!    
                     data = response.data;
                     if (data.resposta == 1) {
