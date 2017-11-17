@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "82606458-0726-45b5-b3d1-bea1407cd611",
-      "lastModifiedDate": 1510939665841,
+      "lastModifiedDate": 1510940841362,
       "creationDate": 1488809141554
     },
     "XDK-app-designer": "false",
@@ -237,7 +237,7 @@
         "appVersion_": "0.0.3",
         "appDescription_": "Aplicativo para controle de serviços Doutor Sofá",
         "appAuthor_": "Luigi Matheus Afornalli Breda",
-        "appVersionCode_": "3",
+        "appVersionCode_": "4",
         "signed_": true
       },
       "iOS": {

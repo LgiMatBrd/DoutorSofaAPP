@@ -199,10 +199,9 @@
                 <br />
                 <br />
                 <br /> 
-                <div ng-cloak id="smallImage" ng-repeat="onepic in myPictures">
-                    <img src="{{ ('data:image/jpeg;base64,'+onepic) }}"/>
-                    <!--<md-button style="width: 100% !important;" ng-click="" class="md-primary"> Deletar </md-button>-->
-                </div>
+                <!--<div ng-cloak id="smallImage" ng-repeat="onepic in myPictures">
+                    <img ng-if="onepic == false" src="{{ ('data:image/jpeg;base64,'+onepic) }}"/>
+                </div>-->
 
               </form>
             </div>
