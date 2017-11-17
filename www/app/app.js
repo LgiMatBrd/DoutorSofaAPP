@@ -747,6 +747,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                             .position("top right")
                             .hideDelay(3000)
                         );
+                        $location.path('/home').replace();
                     } else {
                         $scope.mensagemErro = data.mensagem;
                         $scope.erro = true;
