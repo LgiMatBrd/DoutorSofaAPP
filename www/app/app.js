@@ -166,8 +166,8 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         
     // Se for ação de login
     $scope.user = { email: '' };
+    
     $scope.user.submit = function($event , user) {
-        
         $event.preventDefault();
         var data = { username: user.username, password : user.password };
         $rootScope.LayerCarregando = true;
@@ -175,13 +175,14 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         .then(function(response) {
             // sucesso!     
             data = response.data;
+            console.dir(data);
             if (data.resposta == 1) {
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent(data.mensagem)
                     .position("top buttom")
                     .hideDelay(3000)
-                );       
+                );        
                 $rootScope.LayerCarregando = false;
                 $localStorage.Sessao.db = data.sessao;
                 $location.path('/home').replace();
@@ -196,6 +197,23 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
             }
         });    
     }
+    
+    var data = { username: $scope.user.username, password : $scope.user.password };
+    $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+    .then(function(response) { 
+        // sucesso!     
+        data = response.data;
+        console.dir(data);
+        if (data.resposta == 1) {
+            //$mdToast.show($mdToast.simple().textContent(data.mensagem).position("top buttom").hideDelay(3000));       
+            $rootScope.LayerCarregando = false;
+            $localStorage.Sessao.db = data.sessao;
+            $location.path('/home').replace();
+        } else {
+            //$mdToast.show($mdToast.simple().textContent(data.mensagem).position("top buttom").hideDelay(3000));   
+            $rootScope.LayerCarregando = false;   
+        }
+    });        
 });
 
 // CONTROLLER DA HOME
@@ -728,7 +746,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             }).finally(function() {
                 $rootScope.LayerCarregando = false;   
             });             
-            $scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
+            //$scope.myPictures = $localStorage.Servicos.db[id_click].fotos64;
             
             // Pega os valores booleanos que estão em string e coverte novamente.
             angular.forEach($scope.item, function(value, key) {
@@ -736,7 +754,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 if (value == "true") {
                     $scope.item[key] = true;
                 }
-            });
+            }); 
             
         } else {
             console.log('Nenhum item para ser editado, abrindo tela de adiconar novo item...');
