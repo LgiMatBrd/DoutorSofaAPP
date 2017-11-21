@@ -86,11 +86,12 @@ app.run(function($localStorage) {
             db: {}
         }; 
     }
-    if (typeof $localStorage.Sessao === 'undefined' || typeof $localStorage.Sessao.db === 'undefined' || $localStorage.Sessao.version !== 'v0.1')
+    if (typeof $localStorage.Sessao === 'undefined' || typeof $localStorage.Sessao.db === 'undefined' || $localStorage.Sessao.version !== 'v0.2')
     {
         $localStorage.Sessao = {
-            version: 'v0.1',
-            db: {}
+            version: 'v0.2',
+            db: {},
+            logado: false
         }; 
     }
     if (typeof $localStorage.itensMenu === 'undefined' || $localStorage.itensMenu.version !== 'v0.1')
@@ -155,52 +156,63 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     $mdToast.simple()
                     .textContent(data.mensagem)
                     .position("top buttom")
-                    .hideDelay(3000)
-                );                
+                    .hideDelay(3000) 
+                );    
+                $localStorage.Sessao.logado = false;
+                $location.path('/login').replace();
                 $rootScope.LayerCarregando = false;  
             } else {
                 $rootScope.LayerCarregando = false;
             }
         });          
     } 
-        
+            
     // Se for ação de login
     $scope.user = { email: '' };
-    
-    $scope.user.submit = function($event , user) {
-        $event.preventDefault();
-        var data = { username: user.username, password : user.password };
-        $rootScope.LayerCarregando = true;
-        $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .then(function(response) {
-            // sucesso!     
-            data = response.data;
-            console.dir(data);
-            if (data.resposta == 1) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.mensagem)
-                    .position("top buttom")
-                    .hideDelay(3000)
-                );        
-                $rootScope.LayerCarregando = false;
-                $localStorage.Sessao.db = data.sessao;
-                $location.path('/home').replace();
-            } else {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.mensagem)
-                    .position("top buttom")
-                    .hideDelay(3000)
-                );
-                $rootScope.LayerCarregando = false;   
-            }
-        });    
+
+    if($localStorage.Sessao.logado == false) {
+        $scope.user.submit = function($event , user) {
+            $event.preventDefault();
+            var data = { username: user.username, password : user.password };
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) {
+                // sucesso!     
+                data = response.data;
+                console.dir(data);
+                if (data.resposta == 1) {
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent(data.mensagem)
+                        .position("top buttom")
+                        .hideDelay(3000)
+                    );        
+                    $rootScope.LayerCarregando = false;
+                    $localStorage.Sessao.db = data.sessao;
+                    $localStorage.Sessao.logado = true;
+                    $location.path('/home').replace();
+                } else {
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent(data.mensagem)
+                        .position("top buttom")
+                        .hideDelay(3000) 
+                    );
+                    $rootScope.LayerCarregando = false;   
+                }
+            });    
+        }  
+    }
+    else
+    {
+        $localStorage.Sessao.logado = true;
+        $location.path('/home').replace();
     }
     
+    /*
     var data = { username: $scope.user.username, password : $scope.user.password };
     $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-    .then(function(response) { 
+    .then(function(response) {
         // sucesso!     
         data = response.data;
         console.dir(data);
@@ -213,7 +225,8 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
             //$mdToast.show($mdToast.simple().textContent(data.mensagem).position("top buttom").hideDelay(3000));   
             $rootScope.LayerCarregando = false;   
         }
-    });        
+    });  
+    */
 });
 
 // CONTROLLER DA HOME
