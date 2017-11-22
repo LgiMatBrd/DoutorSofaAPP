@@ -168,7 +168,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
     } 
             
     // Se for ação de login
-    $scope.user = { email: '' };
+    $scope.user = { email: '' }; 
 
     if($localStorage.Sessao.logado == false) {
         $scope.user.submit = function($event , user) {
@@ -179,9 +179,8 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
             .then(function(response) {
                 // sucesso!     
                 data = response.data;
-                console.dir(data);
                 if (data.resposta == 1) {
-                    $mdToast.show(
+                    $mdToast.show( 
                         $mdToast.simple()
                         .textContent(data.mensagem)
                         .position("top buttom")
@@ -205,8 +204,16 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
     }
     else
     {
-        $localStorage.Sessao.logado = true;
-        $location.path('/home').replace();
+        var data = { username: $scope.user.username, password : $scope.user.password };
+        $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        .then(function(response) {
+            data = response.data;
+            if (data.resposta == 1) {
+                $localStorage.Sessao.db = data.sessao;
+                $localStorage.Sessao.logado = true;
+                $location.path('/home').replace();
+            }
+        });    
     }
     
     /*
@@ -242,7 +249,7 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
             .hideDelay(3000)
         );        
         $location.path('/home').replace();
-    }
+    } 
     */
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
