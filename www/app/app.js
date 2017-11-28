@@ -200,10 +200,11 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     $rootScope.LayerCarregando = false;   
                 }
             });    
-        }  
+        }
     }
     else
     {
+        alert("login automatico");
         var data = { username: $scope.user.username, password : $scope.user.password };
         $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) {
