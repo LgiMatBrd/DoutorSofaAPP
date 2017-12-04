@@ -190,6 +190,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     $localStorage.Sessao.db = data.sessao;
                     $localStorage.Sessao.logado = true;
                     $location.path('/home').replace();
+                    $rootScope.data = data;
                 } else {
                     $mdToast.show(
                         $mdToast.simple()
@@ -206,7 +207,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
     {
         alert("login automatico");
         var data = { username: $scope.user.username, password : $scope.user.password };
-        $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+        $http.post('http://api.doutorsofa.com.br/login/', $rootScope.data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) {
             data = response.data;
             if (data.resposta == 1) {
