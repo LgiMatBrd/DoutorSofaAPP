@@ -18,7 +18,7 @@
       "tinyhippos-geosettings": {
         "id": "tinyhippos-geosettings",
         "key": "geosettings",
-        "value": "{\"position\":{\"latitude\":43.46063927435424,\"longitude\":-80.50357507922475,\"altitude\":100,\"accuracy\":150,\"altitudeAccuracy\":80,\"heading\":0,\"speed\":0,\"timeStamp\":\"new Date(1511374522375)\"},\"delay\":\"0\",\"timeout\":false}",
+        "value": "{\"position\":{\"latitude\":-25.414465362174806,\"longitude\":-49.29034495323564,\"altitude\":100,\"accuracy\":150,\"altitudeAccuracy\":80,\"heading\":0,\"speed\":0,\"timeStamp\":\"new Date(1516722900725)\"},\"delay\":\"0\",\"timeout\":false}",
         "prefix": "tinyhippos-"
       },
       "tinyhippos-saved-sims": {
@@ -30,7 +30,7 @@
       "tinyhippos-geo-map-zoom-key": {
         "id": "tinyhippos-geo-map-zoom-key",
         "key": "geo-map-zoom-key",
-        "value": 13,
+        "value": 7,
         "prefix": "tinyhippos-"
       },
       "tinyhippos-network-type": {
