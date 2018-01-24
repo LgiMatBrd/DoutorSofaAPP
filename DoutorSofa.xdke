@@ -24,7 +24,7 @@
       "tinyhippos-saved-sims": {
         "id": "tinyhippos-saved-sims",
         "key": "saved-sims",
-        "value": "[{\"service\":\"SQLitePlugin\",\"action\":\"open\",\"args\":[{\"name\":\"example\",\"dblocation\":\"nosync\"}],\"value\":0,\"success\":true}]",
+        "value": "[]",
         "prefix": "tinyhippos-"
       },
       "tinyhippos-geo-map-zoom-key": {
@@ -36,7 +36,7 @@
       "tinyhippos-network-type": {
         "id": "tinyhippos-network-type",
         "key": "network-type",
-        "value": "2g",
+        "value": "wifi",
         "prefix": "tinyhippos-"
       }
     }

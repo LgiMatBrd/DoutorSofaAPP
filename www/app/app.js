@@ -86,10 +86,10 @@ app.run(function($localStorage) {
             db: {}
         }; 
     }
-    if (typeof $localStorage.Sessao === 'undefined' || typeof $localStorage.Sessao.db === 'undefined' || $localStorage.Sessao.version !== 'v0.2')
+    if (typeof $localStorage.Sessao === 'undefined' || typeof $localStorage.Sessao.db === 'undefined' || $localStorage.Sessao.version !== 'v0.3')
     {
         $localStorage.Sessao = {
-            version: 'v0.2',
+            version: 'v0.3',
             db: {},
             logado: false
         }; 
@@ -140,7 +140,6 @@ app.run(function($localStorage) {
 
 // CONTROLLER PÁGINA DE LOGIN
 app.controller('loginController', function($scope, $http, $localStorage, $location, $mdDialog, $mdToast, $rootScope) {
-    console.dir($localStorage.Sessao.dados); 
     $rootScope.LayerCarregando = $localStorage.LayerCarregando;
     
     // Se for ação de desogar
@@ -150,7 +149,7 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
         .then(function(response) {
             // sucesso!
             data = response.data;
-            if (data.resposta == 1) {
+            if (data.resposta == 1) { 
                 $scope.erro = false; 
                 $mdToast.show(
                     $mdToast.simple()
@@ -158,19 +157,59 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
                     .position("top buttom")
                     .hideDelay(3000) 
                 );    
-                $localStorage.Sessao.logado = false;
-                $location.path('/login').replace();
                 $rootScope.LayerCarregando = false;  
+                $location.path('/login').replace();
             } else {
                 $rootScope.LayerCarregando = false;
             }
         });          
     }
             
-    // Se for ação de login
-    $scope.user = { email: '' }; 
-
-    if($localStorage.Sessao.logado == false) {
+    //http://api.doutorsofa.com.br/login/listarUsuarios
+    $http.post('http://api.doutorsofa.com.br/login/', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+    .then(function(response) {
+        if (response.data.resposta == 1) {
+            //logado
+            $rootScope.LayerCarregando = true;
+            $rootScope.LayerCarregando = false;
+            $location.path('/home').replace();
+        } else {
+            //deslogado
+            // Se for ação de login 
+            $scope.user = { email: '' }; 
+            $scope.user.submit = function($event , user) {
+                $event.preventDefault();
+                var data = { username: user.username, password : user.password };
+                $rootScope.LayerCarregando = true;
+                $http.post('http://api.doutorsofa.com.br/login/', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+                .then(function(response) {
+                    // sucesso!     
+                    data = response.data;
+                    if (data.resposta == 1) {
+                        $mdToast.show( 
+                            $mdToast.simple() 
+                            .textContent(data.mensagem)
+                            .position("top buttom")
+                            .hideDelay(3000)
+                        );        
+                        $rootScope.LayerCarregando = false;
+                        $location.path('/home').replace();
+                    } else {
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent(data.mensagem)
+                            .position("top buttom")
+                            .hideDelay(3000) 
+                        );
+                        $rootScope.LayerCarregando = false;   
+                    }
+                });    
+            }                
+        }
+        $scope.debug = response.data; 
+    }); 
+    /*if($localStorage.Sessao.logado == false) {
+        alert('false');
         $scope.user.submit = function($event , user) { 
             $event.preventDefault();
             var data = { username: user.username, password : user.password };
@@ -203,20 +242,22 @@ app.controller('loginController', function($scope, $http, $localStorage, $locati
             });    
         }
     } 
-    else   
+    else     
     {
+        alert('true');
+        //var zika = $rootScope.data; 
         //alert(  "login automatico");
         var data = { username: $scope.user.username, password : $scope.user.password };
         $http.post('http://api.doutorsofa.com.br/login/', $rootScope.data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
-        .then(function(response) {
+        .then(function(response) { 
             data = response.data;
             if (data.resposta == 1) {
                 $localStorage.Sessao.db = data.sessao;
                 $localStorage.Sessao.logado = true;
-                $location.path('/home').replace();  
+                //$location.path('/home').replace();  
             }
         });  
-    }
+    }*/
     
     /*
     var data = { username: $scope.user.username, password : $scope.user.password };
