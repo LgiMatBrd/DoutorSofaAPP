@@ -606,7 +606,7 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
         }
         
         $scope.addItem = function(itemForm) {
-            
+             
             // Verifica se os Form é de edição ou de adição de novo Item
             if (id_click > -1) {
                 // Edita o item
@@ -795,6 +795,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
         { 
+            $scope.edicao = true;
             $scope.item = {};
             $rootScope.LayerCarregando = true;
             $http.post('http://api.doutorsofa.com.br/servico/detalha', id_click, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
@@ -802,10 +803,11 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 // sucesso!    
                 data = response.data;
                 $scope.item = data[0];
+                $scope.myPictures = data['fotos'];
                 
                 $scope.item.data = new Date($scope.item.data);
                 
-                console.dir($scope.item);
+                console.dir(response.data);
             }).finally(function() {
                 $rootScope.LayerCarregando = false;   
             });             
@@ -820,6 +822,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             }); 
             
         } else {
+            $scope.edicao = false;
             console.log('Nenhum item para ser editado, abrindo tela de adiconar novo item...');
         }
         
@@ -872,7 +875,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                             .textContent('Serviço editado!')
                             .position("top right")
                             .hideDelay(3000)
-                        );
+                        ); 
                         $location.path('/home').replace();
                     } else {
                         $scope.mensagemErro = data.mensagem;
@@ -884,9 +887,9 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                 
             } else { 
                 id = $localStorage.Servicos.nextID;
+                console.dir($scope.item);
 
                 $scope.item.fotos = $scope.myPictures;
-                
                 $rootScope.LayerCarregando = true;
                 $http.post('http://api.doutorsofa.com.br/servico/registrar', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
                 .then(function(response) {
