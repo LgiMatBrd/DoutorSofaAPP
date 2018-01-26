@@ -181,3 +181,25 @@ md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
     width: 100% !important;
     height: 70px !important;
 }
+
+.chart{
+  background-color: #333;
+  height: 100%;
+  padding-top: 20px;
+}
+
+
+.editData{
+  max-height: 160px;
+  max-width: 98%;
+  margin: auto;
+  background-color: white !important;
+}
+
+.chartBkgnd {
+  background-color: white !important;
+}
+
+.md-toolbar-tools{
+  font-size:16px;
+}

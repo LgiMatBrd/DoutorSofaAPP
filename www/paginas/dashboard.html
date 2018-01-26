@@ -1,0 +1,47 @@
+
+  <div flex></div>
+  <div md-whiteframe="5" class="chartBkgnd">
+    <md-toolbar class="md-whiteframe-2dp md-toolbar-tools" id="toaster">
+      <b> Dash!</b>     
+    </md-toolbar>
+<!--     Comparison Chart -->
+    <md-content layout-padding ng-hide="hideCompare" class="chartBkgnd">
+        <canvas id="chartjs" class="chart chart-pie" chart-data="dataSets[3]" chart-labels="labelsC" chart-series="seriesC" chart-options="optionsC" chart-dataset-override="datasetOverrideC" chart-click="onClick"></canvas>
+    </md-content>
+    <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom md-selected="1">
+      <!--     Chart1 -->
+      <md-tab label="Red Stuff" md-on-select="dataSet(0)">
+        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[0]" chart-labels="labels" chart-series="series" chart-options="optionsR" chart-dataset-override="datasetOverrideR" chart-click="onClick"></canvas>
+      </md-tab>
+      <!--     Chart2 -->
+      <md-tab label="Blue Stuff" md-on-select="dataSet(1)">
+        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[1]" chart-labels="labels" chart-series="series" chart-options="optionsB" chart-dataset-override="datasetOverrideB" chart-click="onClick"></canvas>
+      </md-tab>
+      <!--     Chart3 -->      
+      <md-tab label="Pink Stuff" md-on-select="dataSet(2)">
+        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[2]" chart-labels="labels" chart-series="series" chart-options="optionsP" chart-dataset-override="datasetOverrideP" chart-click="onClick"></canvas>
+      </md-tab>      
+    </md-tabs>
+    <br />
+    <md-toolbar class="md-whiteframe-2dp md-toolbar-tools">
+      <md-button class="md-raised" ng-click="compareStuff()">Comparar</md-button> &nbsp;Barra&nbsp;
+      <md-switch ng-model="chartLine" ng-change="toggle()" aria-label="Barrra Linha"> Linha
+      </md-switch>  
+    </md-toolbar>
+    <!--<md-toolbar>
+      <span class="md-toolbar-tools md-whiteframe-1dp">
+        Play with the {{ theme }} stuff !
+        <span flex></span>
+          <md-button class="md-fab md-mini md-primary" aria-label="Print Char" ng-click="printChart()">
+            <md-icon><i class="material-icons">print</i></md-icon>           
+        </md-button>         
+    </span>      
+    </md-toolbar>
+    <md-content layout-md="row" class="editData" ng-hide="hideEdit">
+      <md-input-container ng-repeat="label in labels" layout="row" layout-align="center center">
+        <label>{{label}}</label>
+        <input ng-model="dataSets[dIndex][0][$index]" class="md-whiteframe-0dp" ng-change="updateCompare()" type="number">
+      </md-input-container>
+    </md-content>-->
+  </div>
+  <div flex></div>
