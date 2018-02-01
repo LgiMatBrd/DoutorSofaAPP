@@ -1,33 +1,80 @@
+<md-toolbar style="position: fixed !important;">
+    <div class="md-toolbar-tools">
+        <!--<md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>-->
+        <md-button><i back-button class="material-icons" style="color: #999;">keyboard_arrow_left</i></md-button>
+        <h2><span>Doutor Sofá</span></h2>
 
-  <div flex></div>
-  <div md-whiteframe="5" class="chartBkgnd">
-    <md-toolbar class="md-whiteframe-2dp md-toolbar-tools" id="toaster">
-      <b> Dash!</b>     
+        <md-menu md-position-mode="target-right target">
+          <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
+            <i class="material-icons" style="color: #999;">menu</i>
+          </md-button>
+          <md-menu-content width="4" >
+            <md-menu-item ng-repeat="item in itensMenu">
+              <md-button ng-click="abrirPagina(item.href)">
+                  <div layout="row" flex>
+                    <p flex>{{item.nome}}</p>
+                    <i class="material-icons">{{item.icone}}</i>
+                  </div>
+              </md-button>
+            </md-menu-item>
+          </md-menu-content> 
+        </md-menu> 
+
+    </div>
+</md-toolbar>
+<div flex></div>
+<style>
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 70px !important;
+}
+md-tabs .md-tab.md-active {
+color: rgb(70, 70, 70);
+}
+</style>
+
+<div style="background-color: rgb(237, 237, 237); height: 100% !important; min-height: 100% !important;">
+    <div style="padding: 35px"></div>
+    <div class="layout-column flex-xs flex-gt-xs-50" style="background-color: rgb(237, 237, 237);">    
+        <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom md-selected="1" style="background-color: #fff;">
+            <!-- Gráficos -->
+            <md-tab label="{{grafico.titulo}}" md-on-select="grafico.dados" ng-repeat="grafico in graficos">
+                <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="grafico.dados" chart-labels="labels" chart-series="grafico.series" chart-options="grafico.configs" chart-dataset-override="grafico.dataset" chart-click="onClick"></canvas>
+            </md-tab>
+        </md-tabs>
+    </div>
+    <md-toolbar style="padding-top: 0 !important;">
+        <div class="md-toolbar-tools">
+            <!--<md-button class="md-raised" ng-click="compareStuff()">Comparar</md-button>-->
+            <h2 style="color: #999;"><span>Opções:</span></h2>
+            <!--<md-button>
+                <i ng-click="compareStuff()" class="material-icons" style="color: #{{ hideCompare ? '999' : 'fff'}};">search</i>
+            </md-button>-->
+            <md-button>
+                <i ng-model="chartLine" class="material-icons" ng-click="toggle()" style="color: #{{ type === 'bar' ? '999' : 'fff'}};">multiline_chart</i>    
+            </md-button>
+        </div>    
     </md-toolbar>
+    <div class="layout-column flex-xs flex-gt-xs-50" style="background-color: rgb(237, 237, 237);">    
+        <md-content layout-padding ng-hide="hideCompare">
+            <canvas id="chartjs" class="chart chart-pie" chart-data="dataSets[3]" chart-labels="labelsC" chart-series="seriesC" chart-options="optionsC" chart-dataset-override="datasetOverrideC" chart-click="onClick"></canvas>
+        </md-content>
+    </div>
+</div>
+
+    
+    
+  <!--<div md-whiteframe="5" class="chartBkgnd">-->
 <!--     Comparison Chart -->
-    <md-content layout-padding ng-hide="hideCompare" class="chartBkgnd">
-        <canvas id="chartjs" class="chart chart-pie" chart-data="dataSets[3]" chart-labels="labelsC" chart-series="seriesC" chart-options="optionsC" chart-dataset-override="datasetOverrideC" chart-click="onClick"></canvas>
-    </md-content>
-    <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom md-selected="1">
-      <!--     Chart1 -->
-      <md-tab label="Red Stuff" md-on-select="dataSet(0)">
-        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[0]" chart-labels="labels" chart-series="series" chart-options="optionsR" chart-dataset-override="datasetOverrideR" chart-click="onClick"></canvas>
-      </md-tab>
-      <!--     Chart2 -->
-      <md-tab label="Blue Stuff" md-on-select="dataSet(1)">
-        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[1]" chart-labels="labels" chart-series="series" chart-options="optionsB" chart-dataset-override="datasetOverrideB" chart-click="onClick"></canvas>
-      </md-tab>
-      <!--     Chart3 -->      
-      <md-tab label="Pink Stuff" md-on-select="dataSet(2)">
-        <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="dataSets[2]" chart-labels="labels" chart-series="series" chart-options="optionsP" chart-dataset-override="datasetOverrideP" chart-click="onClick"></canvas>
-      </md-tab>      
-    </md-tabs>
-    <br />
+
+
+    <!--<br />
     <md-toolbar class="md-whiteframe-2dp md-toolbar-tools">
       <md-button class="md-raised" ng-click="compareStuff()">Comparar</md-button> &nbsp;Barra&nbsp;
-      <md-switch ng-model="chartLine" ng-change="toggle()" aria-label="Barrra Linha"> Linha
-      </md-switch>  
-    </md-toolbar>
+      <md-switch ng-model="chartLine" ng-change="toggle()" aria-label="Barrra Linha">Linha</md-switch>  
+    </md-toolbar>-->
     <!--<md-toolbar>
       <span class="md-toolbar-tools md-whiteframe-1dp">
         Play with the {{ theme }} stuff !
@@ -43,5 +90,4 @@
         <input ng-model="dataSets[dIndex][0][$index]" class="md-whiteframe-0dp" ng-change="updateCompare()" type="number">
       </md-input-container>
     </md-content>-->
-  </div>
-  <div flex></div>
+  <!--</div>-->

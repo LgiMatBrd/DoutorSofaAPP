@@ -333,82 +333,73 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
     );
   };
 
-  $scope.toggle = function() {
-    $scope.type = $scope.type === 'bar' ? 'line' : 'bar';
-  };
+    $scope.toggle = function() {
+        $scope.type = $scope.type === 'bar' ? 'line' : 'bar';
+    };
     
+    $scope.labels = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
     
-  $scope.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  $scope.labelsC = ["Red", "Blue", "Pink2"];
-  $scope.series = ['Series A'];
+    $scope.nomesFakes = ["Joinville", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba"];
+    $scope.graficos = [];
+    for($scope.i=0; $scope.i<3; $scope.i++) {
+        $scope.graficos.push({
+            titulo: $scope.nomesFakes[$scope.i],
+            dados: [200, 167, 18, 120, 100, 130, 130, 120, 140, 60, 200, 260],
+            configs: {
+                "title": {
+                    display: true,
+                    text: 'Serviços concluídos',
+                    fontColor: 'rgb(75, 75, 75)',
+                    fontSize: 16
+                },
+                "scales": {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            dataset: {
+                label: "Concluídos",
+                fill: true,
+                lineTension: 0.2,
+                borderColor: "rgba(0,100,192,1)",
+                backgroundColor: "rgba(0, 100, 192, 0.6)"                
+            },
+            "series": "Gráfico "+$scope.nomesFakes[$scope.i]
+        });
+        
+    }
     
-  $scope.dataSets[0] = [
-    [200, 167, 18, 120, 100, 130, 130, 120, 140, 60, 200, 260]
-  ];
-  $scope.dataSets[1] = [
-    [100, 29, 300, 220, 200, 30, 30, 220, 40, 160, 300, 460]
-  ];
-  $scope.dataSets[2] = [
-    [130, 130, 120, 140, 60, 200, 260, 200, 167, 18, 120, 100]
-  ];
+    /*
+    $scope.graficos = {
+        "0": {
+            dados: [200, 167, 18, 120, 100, 130, 130, 120, 140, 60, 200, 260],
+            configs: {
+                "title": {
+                    display: true,
+                    text: 'Amount of red stuff in the warehouse',
+                    fontColor: 'rgba(255,0,0,0.8)',
+                    fontSize: 16
+                },
+                "scales": {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            "series": "Series A"            
+        }
+    }*/
 
-  $scope.optionsR = {
-    title: {
-      display: true,
-      text: 'Amount of red stuff in the warehouse',
-      fontColor: 'rgba(255,0,0,0.8)',
-      fontSize: 16
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    },
-  };
-  $scope.optionsB = {
-    title: {
-      display: true,
-      text: 'Amount of blue stuff in the warehouse',
-      fontColor: 'rgba(0,100,192,0.8)',
-      fontSize: 16
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    },
-  };
-  $scope.optionsP = {
-    title: {
-      display: true,
-      text: 'Amount of pink stuff in the warehouse',
-      fontColor: 'rgba(255,105,180,1)',
-      fontSize: 16
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    },
-  };
 
+    
   $scope.seriesC = ['Blue Stuff', 'Red Stuff', 'Pink Stuff'];
-
     
-    
-    
-    
-    
-    
-    
-    
-    
+  $scope.labelsC = ["Red", "Blue", "Pink2"];
     
       function avgArray(arr) {
     var sum = arr.reduce(function(a, b) {
@@ -418,25 +409,18 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
     return avg.toFixed();
   }
 
-  $scope.dataSets[3] = [
-    [avgArray($scope.dataSets[0][0]), avgArray($scope.dataSets[1][0]), avgArray($scope.dataSets[2][0])]
+    $scope.dataSets[0] = [
+    [130, 130, 120, 140, 60, 200, 260, 200, 167, 18, 120, 100]
   ];
+    $scope.dataSets[1] = [
+    [130, 130, 120, 140, 60, 200, 260, 200, 167, 18, 120, 100]
+  ];
+  $scope.dataSets[3] = [
+    [avgArray($scope.dataSets[0][0]), avgArray($scope.dataSets[1][0])]
+  ];
+    console.dir($scope.dataSets[3]);
 
-    
-      $scope.datasetOverrideR = [{
-    label: "Red Stuff",
-    fill: true,
-    lineTension: 0.2,
-    borderColor: "rgba(255,0,0,1)",
-    backgroundColor: "rgba(255,0,0,0.6)"
-  }];
-  $scope.datasetOverrideB = [{
-    label: "Blue Stuff",
-    fill: true,
-    lineTension: 0.2,
-    borderColor: "rgba(0,100,192,1)",
-    backgroundColor: "rgba(0,100,192,0.4)",
-  }];
+
     
   $scope.datasetOverrideC = [{
     backgroundColor: [
@@ -452,16 +436,12 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
 
   }];
 
-  $scope.onClick = function(points, evt) {
-    console.log(points, evt);
-  };
-    
   $scope.optionsC = {
     rotation: 0.5 * Math.PI,
     title: {
       display: true,
-      text: 'Average amount of stuff through the year',
-      fontColor: 'rgba(0,0,0,0.4)',
+      text: 'Comparação de franquias',
+      fontColor: 'rgb(33, 33, 33)',
       fontSize: 16
     },
     legend: {
@@ -847,12 +827,12 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
     }
          
     
-});
+}); 
 
 // CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast, $rootScope) {
     
-    $rootScope.LayerCarregando = $localStorage.LayerCarregando;
+    $rootScope.LayerCarregando = $localStorage.LayerCarregando; 
     
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
     
@@ -870,6 +850,11 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     
     // inicia
     populaServicos();
+    $scope.filtroTempoReal = 0;
+    
+    $scope.modificaFiltro = function(filtro) {
+        $scope.filtroTempoReal = filtro;
+    };
     
     // recebe os filtros
     $scope.filtrarResultados = function(filtro) {

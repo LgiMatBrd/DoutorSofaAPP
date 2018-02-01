@@ -82,3 +82,18 @@ md-dialog.fullscreen-dialog {
     height: 100%;
     border-radius: 0;
 }
+
+button.md-primary.md-button.md-default-theme.md-ink-ripple {
+    width: 50% !important;
+    color: #333 !important;
+}
+
+button.md-primary.md-button.ng-scope.md-default-theme.md-ink-ripple {
+    width: 50% !important;
+    color: #333 !important;
+}
+
+md-dialog-actions {
+    margin: 0 !important;
+    padding: 0 !important;
+}

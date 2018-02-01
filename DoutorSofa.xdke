@@ -18,7 +18,7 @@
       "tinyhippos-geosettings": {
         "id": "tinyhippos-geosettings",
         "key": "geosettings",
-        "value": "{\"position\":{\"latitude\":-25.414465362174806,\"longitude\":-49.29034495323564,\"altitude\":100,\"accuracy\":150,\"altitudeAccuracy\":80,\"heading\":0,\"speed\":0,\"timeStamp\":\"new Date(1516904293725)\"},\"delay\":\"0\",\"timeout\":false}",
+        "value": "{\"position\":{\"latitude\":-25.414465362174806,\"longitude\":-49.29034495323564,\"altitude\":100,\"accuracy\":150,\"altitudeAccuracy\":80,\"heading\":0,\"speed\":0,\"timeStamp\":\"new Date(1517507185454)\"},\"delay\":\"0\",\"timeout\":false}",
         "prefix": "tinyhippos-"
       },
       "tinyhippos-saved-sims": {
