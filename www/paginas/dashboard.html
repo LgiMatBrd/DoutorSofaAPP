@@ -3,7 +3,8 @@
         <!--<md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>-->
         <md-button><i back-button class="material-icons" style="color: #999;">keyboard_arrow_left</i></md-button>
         <h2><span>Doutor Sofá</span></h2>
-
+        
+        <md-button style="margin-left: 110px !important;"><i ng-model="chartLine" class="material-icons" ng-click="toggle()" style="color: #{{ type === 'bar' ? '999' : 'fff'}};">multiline_chart</i></md-button>
         <md-menu md-position-mode="target-right target">
           <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
             <i class="material-icons" style="color: #999;">menu</i>
@@ -41,22 +42,16 @@ color: rgb(70, 70, 70);
         <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom md-selected="1" style="background-color: #fff;">
             <!-- Gráficos -->
             <md-tab label="{{grafico.titulo}}" md-on-select="grafico.dados" ng-repeat="grafico in graficos">
-                <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="grafico.dados" chart-labels="labels" chart-series="grafico.series" chart-options="grafico.configs" chart-dataset-override="grafico.dataset" chart-click="onClick"></canvas>
+                <canvas id="chartjs" class="chart-base" chart-type="type" chart-data="grafico.dados" chart-labels="grafico.labels" chart-series="grafico.series" chart-options="grafico.configs" chart-dataset-override="grafico.dataset" chart-click="onClick"></canvas>
             </md-tab>
         </md-tabs>
     </div>
-    <md-toolbar style="padding-top: 0 !important;">
+    <!--<md-toolbar style="padding-top: 0 !important;">
         <div class="md-toolbar-tools">
-            <!--<md-button class="md-raised" ng-click="compareStuff()">Comparar</md-button>-->
             <h2 style="color: #999;"><span>Opções:</span></h2>
-            <!--<md-button>
-                <i ng-click="compareStuff()" class="material-icons" style="color: #{{ hideCompare ? '999' : 'fff'}};">search</i>
-            </md-button>-->
-            <md-button>
-                <i ng-model="chartLine" class="material-icons" ng-click="toggle()" style="color: #{{ type === 'bar' ? '999' : 'fff'}};">multiline_chart</i>    
-            </md-button>
+            <md-button><i ng-model="chartLine" class="material-icons" ng-click="toggle()" style="color: #{{ type === 'bar' ? '999' : 'fff'}};">multiline_chart</i></md-button>
         </div>    
-    </md-toolbar>
+    </md-toolbar>-->
     <div class="layout-column flex-xs flex-gt-xs-50" style="background-color: rgb(237, 237, 237);">    
         <md-content layout-padding ng-hide="hideCompare">
             <canvas id="chartjs" class="chart chart-pie" chart-data="dataSets[3]" chart-labels="labelsC" chart-series="seriesC" chart-options="optionsC" chart-dataset-override="datasetOverrideC" chart-click="onClick"></canvas>

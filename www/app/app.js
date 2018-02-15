@@ -107,7 +107,7 @@ app.run(function($localStorage) {
             recvTimestamp: 0,
             remoteDelete: [],
             itens: [
-            {
+            { 
                 "id": 1,
                 "icone": 'home',
                 "nome": 'Home',
@@ -342,7 +342,7 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
     $scope.nomesFakes = ["Joinville", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba", "Curitiba"];
     $scope.graficos = [];
     for($scope.i=0; $scope.i<3; $scope.i++) {
-        $scope.graficos.push({
+/*        $scope.graficos.push({
             titulo: $scope.nomesFakes[$scope.i],
             dados: [200, 167, 18, 120, 100, 130, 130, 120, 140, 60, 200, 260],
             configs: {
@@ -368,9 +368,55 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
                 backgroundColor: "rgba(0, 100, 192, 0.6)"                
             },
             "series": "Gráfico "+$scope.nomesFakes[$scope.i]
-        });
+        });*/
         
     }
+     
+    $rootScope.LayerCarregando = true;
+    $http.post('http://api.doutorsofa.com.br/servico/dashboard', $scope.item, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+    .then(function(response) {
+        // sucesso!    
+        $scope.nomesFakes = response.data[0].labels;
+        
+        $scope.i = 0;
+        console.dir(response.data[0].franquias);
+        angular.forEach(response.data[0].franquias, function(value, key) {
+            $scope.graficos.push({
+                titulo: $scope.nomesFakes[$scope.i],
+                labels: value.dia,
+                dados: value.total,
+                configs: {
+                    "title": {
+                        display: true,
+                        text: 'Serviços concluídos',
+                        fontColor: 'rgb(75, 75, 75)',
+                        fontSize: 16
+                    },
+                    "scales": {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                },
+                dataset: {
+                    label: "R$",
+                    fill: true,
+                    lineTension: 0.2,
+                    borderColor: "rgba(0,100,192,1)",
+                    backgroundColor: "rgba(0, 100, 192, 0.6)"                
+                },
+                "series": "Gráfico "+$scope.nomesFakes[$scope.i]
+            });     
+            $scope.i++;
+        });
+        
+        
+        console.dir($scope.labels);
+    }).finally(function() {
+        $rootScope.LayerCarregando = false;   
+    });
     
     /*
     $scope.graficos = {
@@ -418,7 +464,6 @@ app.controller('dashboardController', function($scope, $routeParams, $http, $loc
   $scope.dataSets[3] = [
     [avgArray($scope.dataSets[0][0]), avgArray($scope.dataSets[1][0])]
   ];
-    console.dir($scope.dataSets[3]);
 
 
     
@@ -476,7 +521,7 @@ app.controller('funcionariosController', function($scope, $routeParams, $http, $
     $scope.angularEquals = angular.equals;
     
     $scope.itensMenu = $localStorage.itensMenu.itens;
-    
+     
     // inicia
     populaFuncionarios();
     
@@ -879,7 +924,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     
     // popula a variavel servicos 
     function populaServicos($filtro)
-    { 
+    {  
         $rootScope.LayerCarregando = true;
         $http.post('http://api.doutorsofa.com.br/servico/listar', { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
         .then(function(response) { 
@@ -930,6 +975,43 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                     $mdToast.show(
                         $mdToast.simple()
                         .textContent('Funcionário deletado')
+                        .position("top right")
+                        .hideDelay(3000)    
+                    );
+                } else {
+                    $scope.mensagemErro = data.mensagem;
+                    $scope.erro = true;
+                }
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
+            });
+        }, function() {
+        });        
+
+    };
+    
+    // edita status servico
+    $scope.mudaStatus = function (ev, servico)
+    {
+        var confirm = $mdDialog.confirm()
+              .title('Você tem certeza?')
+              .textContent('Esta ação é irreversível.')
+              .targetEvent(ev)
+              .ok('SIM')
+              .cancel('CANCELAR');
+
+        $mdDialog.show(confirm).then(function() {
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/servico/mudastatus', servico, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) { 
+                // sucesso!  
+                data = response.data;  
+                if (data.resposta == 1) {
+                    populaServicos(0);
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Serviço concluídos')
                         .position("top right")
                         .hideDelay(3000)    
                     );

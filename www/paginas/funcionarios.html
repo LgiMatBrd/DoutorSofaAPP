@@ -105,7 +105,7 @@
     
                 <md-input-container class="md-block" flex-gt-sm="" required>
                 <label>Telefone do funcionário</label>
-                <input ng-model="item.telefone" />
+                <input mdInput type="number" ng-model="item.telefone" />
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="" required>
@@ -120,8 +120,8 @@
                     <label>Tipo do funcionário</label>
                     <md-select ng-model="item.tipoUsuario">
                       <md-option value="1">Funcionário</md-option> 
-                      <md-option value="2">Franqueado/Dono Franquia</md-option>
-                      <md-option value="3">Administrador</md-option>
+                      <!--<md-option value="2">Franqueado/Dono Franquia</md-option>
+                      <md-option value="3">Administrador</md-option>-->
                     </md-select>                   
                 </md-input-container>
                   
