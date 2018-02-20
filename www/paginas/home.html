@@ -2,7 +2,7 @@
                 <div class="md-toolbar-tools">
                     <!--<md-button><i back-button class="material-icons">keyboard_arrow_left</i></md-button>-->
                     <h2><span>Doutor Sofá</span></h2>
-
+ 
                     <md-menu md-position-mode="target-right target">
                       <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Abrir o menu">
                         <i class="material-icons" style="color: #999;">menu</i>
@@ -15,7 +15,7 @@
                                 <i class="material-icons">{{item.icone}}</i>
                               </div>
                           </md-button>
-                        </md-menu-item>
+                        </md-menu-item> 
                       </md-menu-content> 
                     </md-menu> 
                   
@@ -33,10 +33,10 @@
 
             <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
                 <div style="padding: 40px"></div>
-                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important; background-color: rgb(255, 194, 0);">                            
+                    <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important; background-color: rgb(255, 194, 0);">
                         <h4 ng-show="angularEquals(servicos,{})" style="margin-left: 10px;">Nenhum serviço encontrado.</h4>
                         <md-card class="_md noright" ng-repeat="servico in servicos | filter: { status: filtroTempoReal }" >                     
-                        <md-card-header style="background-color: rgba(51, 51, 51, 0.04);">
+                        <md-card-header ng-class="{servicoAndamento: servico.status == 0, servicoTerminado: servico.status != 0}" style="">
                           <md-card-avatar> 
                           <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
                           </md-card-avatar>
@@ -136,9 +136,17 @@
 
                 <md-input-container style="width: 100% !important;">
                 <label>Data</label>
-                    <md-datepicker ng-model="item.data" md-placeholder="Insira uma data" ng-required="required"></md-datepicker>                    
+                    <md-datepicker ng-model="item.data" md-placeholder="Insira uma data" ng-required="required" ng-change="atualizaHorarios(item.data)"></md-datepicker>                    
                 </md-input-container>
-                        
+                  
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>Selecione um horário</label>
+                    <md-select ng-model="item.horario">
+                      <md-option ng-value="horario.horario" ng-repeat="horario in resultado">{{horario.label}}</md-option>
+                    </md-select>                    
+                    <!--<select ng-options="item as item.label disable when item.disabled for item in items" ng-model="selected"></select>-->
+                </md-input-container>
+                  
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>Tipo de serviço</label>
                     <md-select ng-model="item.tipoServico" ng-required="required">
@@ -154,10 +162,10 @@
                 <input ng-model="item.endereco" />
                 </md-input-container>
 
-                <md-input-container class="md-block" flex-gt-sm="">
+                <!--<md-input-container class="md-block" flex-gt-sm="">
                 <label>Horário</label>
                 <input ng-model="item.horario" />
-                </md-input-container>
+                </md-input-container>-->
                   
                 <md-input-container class="md-block" flex-gt-sm="">
                 <label>Nome do cliente</label>

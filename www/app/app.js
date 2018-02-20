@@ -881,6 +881,11 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
     
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
     
+    $scope.userState = '';
+    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+                     'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+                     'WY').split(' ').map(function (state) { return { abbrev: state }});
+    
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'left'; 
@@ -908,7 +913,6 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             $scope.filtroCancelados = true;
             $scope.filtroTodos = false;
             $scope.filtroRealizados = false;
-            
         } else if(filtro == 'realizados') {
             populaServicos(2);   
             $scope.filtroRealizados = true;
@@ -1045,10 +1049,76 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
             fullscreen: $scope.customFullscreen
             });
     };
-
+    
     // CONTROLLER TELA DOS FORMULÁRIOS
     function DialogController($scope, $mdDialog, tiposVistorias, id_click, $cordovaCamera, $mdToast) {
+    console.dir($scope.item);
         $scope.myPictures = []; 
+        
+        $scope.atualizaHorarios = function(data) {
+            $rootScope.LayerCarregando = true;
+            $http.post('http://api.doutorsofa.com.br/servico/zikaL', data, { headers: { "Content-Type": "application/x-www-form-urlencoded" }})
+            .then(function(response) { 
+                // sucesso!  
+                console.dir(response);
+                
+                $scope.zika1 = response.data.map(
+                    function(e) {
+                        e.horario = parseInt(e.horario, 10);
+                        return e;
+                    }
+                );
+
+                $scope.horarios = [
+                    { horario: 1, label: '00:00' },
+                    { horario: 2, label: '01:00' },
+                    { horario: 3, label: '02:00' },
+                    { horario: 4, label: '03:00' },
+                    { horario: 5, label: '04:00' },
+                    { horario: 6, label: '05:00' },
+                    { horario: 7, label: '06:00' },
+                    { horario: 8, label: '07:00' },
+                    { horario: 9, label: '08:00' },
+                    { horario: 10, label: '09:00' },
+                    { horario: 11, label: '10:00' },
+                    { horario: 12, label: '11:00' },
+                    { horario: 13, label: '12:00' },
+                    { horario: 14, label: '13:00' },
+                    { horario: 15, label: '14:00' },
+                    { horario: 16, label: '15:00' },
+                    { horario: 17, label: '16:00' },
+                    { horario: 18, label: '17:00' },
+                    { horario: 19, label: '18:00' },
+                    { horario: 20, label: '19:00' },
+                    { horario: 21, label: '20:00' },
+                    { horario: 22, label: '21:00' },
+                    { horario: 23, label: '22:00' },
+                    { horario: 24, label: '23:00' },
+                    { horario: 25, label: '24:00' } 
+                ];
+
+                $scope.prop = ['horario', 'label'];
+
+                $scope.resultado = $scope.horarios.filter(function(o1){
+                    // filter out (!) items in result2
+                    return !$scope.zika1.some(function(o2){
+                        return o1.horario === o2.horario;          // assumes unique horario
+                    });
+                }).map(function(o){
+                    // use reduce to make objects with only the required properties
+                    // and map to apply this to the filtered array as a whole
+                    return $scope.prop.reduce(function(newo, label){
+                        newo[label] = o[label];
+                        return newo;
+                    }, {});
+                });
+                
+            }).finally(function() {
+                $rootScope.LayerCarregando = false;   
+            });            
+        };
+        
+        $scope.testeee = $scope.item;
         
         // Verifica se o usuário quer editar o item.
         if (id_click > -1)
