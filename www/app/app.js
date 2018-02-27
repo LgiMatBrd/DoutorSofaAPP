@@ -876,54 +876,35 @@ app.controller('franqueadosController', function($scope, $routeParams, $http, $l
 
 // CONTROLLER DA HOME
 app.controller('homeController', function($scope, $routeParams, $http, $localStorage, $filter, $mdDialog, $location, $mdToast, $rootScope) {
-    
+
     $rootScope.LayerCarregando = $localStorage.LayerCarregando; 
-    
+    $scope.date = new Date();
     $scope.UsuarioLogado = $localStorage.UsuarioLogado.db;
-    
-    $scope.userState = '';
-    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
-                     'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
-                     'WY').split(' ').map(function (state) { return { abbrev: state }});
     
     $scope.isOpen = false;
     $scope.selectedMode = 'md-scale';
     $scope.selectedDirection = 'left'; 
+    
+    $scope.verificaServicoAtrasado = function(data) {
+        if (new Date(data) < $scope.date) {
+            return true;
+        }
+        return false;
+    };
     
     $scope.abrirPagina = function ( path ) {
       $location.path( path );
     };
      
     $scope.angularEquals = angular.equals;
-    
     $scope.itensMenu = $localStorage.itensMenu.itens;
     
     // inicia
     populaServicos();
-    $scope.filtroTempoReal = 0;
+    $scope.filtroTempoReal = 1;
     
     $scope.modificaFiltro = function(filtro) {
         $scope.filtroTempoReal = filtro;
-    };
-    
-    // recebe os filtros
-    $scope.filtrarResultados = function(filtro) {
-        if (filtro == 'cancelados') {
-            populaServicos(1);      
-            $scope.filtroCancelados = true;
-            $scope.filtroTodos = false;
-            $scope.filtroRealizados = false;
-        } else if(filtro == 'realizados') {
-            populaServicos(2);   
-            $scope.filtroRealizados = true;
-            $scope.filtroTodos = false;
-            $scope.filtroCancelados = false;
-        } else { // todos
-            populaServicos();
-            $scope.filtroTodos = true;
-            $scope.filtroRealizados = false;
-            $scope.filtroCancelados = false;
-        }
     };
     
     // popula a variavel servicos 
@@ -1068,7 +1049,7 @@ app.controller('homeController', function($scope, $routeParams, $http, $localSto
                         return e;
                     }
                 );
-
+ 
                 $scope.horarios = [
                     { horario: 1, label: '00:00' },
                     { horario: 2, label: '01:00' },
@@ -1298,4 +1279,86 @@ app.filter('iif', function () {
    return function(input, trueValue, falseValue) {
         return input ? trueValue : falseValue;
    };
+});
+
+app.directive('currencyMask', function() {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModelController) {
+
+      var formatNumber = function(value) {
+
+        value = value.toString();
+        value = value.replace(/[^0-9\.]/g, "");
+        var parts = value.split('.');
+        parts[0] = parts[0].replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,");
+        if (parts[1] && parts[1].length > 2) {
+          parts[1] = parts[1].substring(0, 2);
+        }
+
+        return parts.join(".");
+      };
+      var applyFormatting = function() {
+        var value = element.val();
+        var original = value;
+        if (!value || value.length == 0) {
+          return
+        }
+        value = formatNumber(value);
+        if (value != original) {
+          element.val(value);
+          element.triggerHandler('input')
+        }
+      };
+      element.bind('keyup', function(e) {
+        var keycode = e.keyCode;
+        var isTextInputKey =
+          (keycode > 47 && keycode < 58) || // number keys
+          keycode == 32 || keycode == 8 || // spacebar or backspace
+          (keycode > 64 && keycode < 91) || // letter keys
+          (keycode > 95 && keycode < 112) || // numpad keys
+          (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+          (keycode > 218 && keycode < 223); // [\]' (in order)
+        if (isTextInputKey) {
+          applyFormatting();
+        }
+      });
+      element.bind('blur', function(evt) {
+        if (angular.isDefined(ngModelController.$modelValue)) {
+          var val = ngModelController.$modelValue.split('.');
+          if (val && val.length == 1) {
+            if (val != "") {
+              ngModelController.$setViewValue('R$ ' + val + '.00');
+              ngModelController.$render();
+            }
+          } else if (val && val.length == 2) {
+            if (val[1] && val[1].length == 1) {
+              ngModelController.$setViewValue('R$ ' + val[0] + '.' + val[1] + '0');
+              ngModelController.$render();
+            } else if (val[1].length == 0) {
+              ngModelController.$setViewValue('R$ ' + val[0] + '.00');
+              ngModelController.$render();
+            }
+            applyFormatting();
+          }
+        }
+      })
+      ngModelController.$parsers.push(function(value) {
+        if (!value || value.length == 0) {
+          return value;
+        }
+        value = value.toString();
+        value = value.replace(/[^0-9\.]/g, "");
+        return value;
+      });
+      ngModelController.$formatters.push(function(value) {
+        if (!value || value.length == 0) {
+          return value;
+        }
+        value = formatNumber(value);
+        return value;
+      });
+    }
+  };
 });

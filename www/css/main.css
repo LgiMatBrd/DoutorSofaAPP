@@ -1,9 +1,9 @@
 .servicoAndamento {
-    background-color: rgba(51, 51, 51, 0.04);
+    background-color: rgba(251, 51, 51, 0.9);
 }
 
 .servicoTerminado {
-    background-color: rgba(51, 51, 51, 0.04);
+    background-color: rgba(251, 51, 51, 0.9);
 }
 
 md-card-title#fundo_card_destaque {

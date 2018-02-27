@@ -33,10 +33,13 @@
 
             <div style="background-color: rgb(255, 194, 0); height: 100% !important; min-height: 100% !important;">
                 <div style="padding: 40px"></div>
+                
+                    <h2 style="margin: 0 !important; padding-left: 3%; font-size: 2em;">{{ filtroTempoReal == 0 ? 'Todos os serviços' : '' || filtroTempoReal == 2 ? 'Serviços concluídos' : '' || filtroTempoReal == 1 ? 'Próximos serviços' : '' }} </h2>
+                    <h4 style="margin: 0 !important; font-size: 1.3em;padding: 0px 0px 0px 3% !important;">{{date | date:'HH:mm'}}</h4>
                     <div class="layout-column flex-xs flex-gt-xs-50" style="padding: 0px 0px 65px 0px !important; background-color: rgb(255, 194, 0);">
                         <h4 ng-show="angularEquals(servicos,{})" style="margin-left: 10px;">Nenhum serviço encontrado.</h4>
-                        <md-card class="_md noright" ng-repeat="servico in servicos | filter: { status: filtroTempoReal }" >                     
-                        <md-card-header ng-class="{servicoAndamento: servico.status == 0, servicoTerminado: servico.status != 0}" style="">
+                        <md-card class="_md noright" ng-repeat="servico in servicos | filter: { status: filtroTempoReal }" > 
+                        <md-card-header ng-class="{servicoTerminado: verificaServicoAtrasado(servico.data)}" style="">
                           <md-card-avatar> 
                           <i class="material-icons" style="background-color: #cacaca; color: #222; padding: 5px; border-radius: 5px;">alarm_on</i>                      
                           </md-card-avatar>
@@ -56,10 +59,10 @@
                             <md-button ng-click="showAdvanced($event,servico.id)" class="md-icon-button md-button md-ink-ripple"  type="button">
                                 <i class="material-icons">mode_edit</i>  
                             </md-button>
-                            <md-button ng-show="servico.status == 0" ng-click="mudaStatus($event, servico);" class="md-icon-button md-button md-ink-ripple"  type="button">
+                            <md-button ng-show="servico.status == 1" ng-click="mudaStatus($event, servico);" class="md-icon-button md-button md-ink-ripple"  type="button">
                                 <i class="material-icons">check</i>
                             </md-button>
-                            <md-button ng-show="servico.status != 0" ng-click="deletarServico($event, servico)" class="md-icon-button md-button md-ink-ripple"  type="button">
+                            <md-button ng-show="servico.status != 1" ng-click="deletarServico($event, servico)" class="md-icon-button md-button md-ink-ripple"  type="button">
                                 <i class="material-icons">close</i>
                             </md-button>
                           </md-card-icon-actions>
@@ -92,11 +95,14 @@
                           <!--<md-button ng-click="filtrarResultados('cancelados')" aria-label="Facebook" class="md-fab md-raised md-mini">
                             <i class="material-icons" style="color: #333;">do_not_disturb</i>
                           </md-button>-->
-                          <md-button ng-click="modificaFiltro(1);" aria-label="Facebook" class="md-fab md-raised md-mini">
+                          <md-button ng-click="modificaFiltro(2);" class="md-fab md-raised md-mini">
                             <i class="material-icons" style="color: #333;">check_box</i>
                           </md-button>
-                          <md-button ng-click="modificaFiltro(0);" aria-label="Google Hangout" class="md-fab md-raised md-mini">
-                            <i class="material-icons" style="color: #333;">remove_red_eye</i>
+                          <md-button ng-click="modificaFiltro(1);" class="md-fab md-raised md-mini">
+                            <i class="material-icons" style="color: #333;">alarm</i>
+                          </md-button>
+                          <md-button ng-click="modificaFiltro(0);" class="md-fab md-raised md-mini">
+                            <i class="material-icons" style="color: #333;">list</i>
                           </md-button>
                         </md-fab-actions>
                       </md-fab-speed-dial>
@@ -183,12 +189,8 @@
                 </md-input-container>
                   
                 <md-input-container class="md-block" flex-gt-sm="">
-                <label>Preço</label>
-                <br />
-                {{item.preco | currency: 'R$'}}
-                <br />
-                <input ng-model="item.preco" />
-                <!--<input type="text" ng-model="item.preco" value="{{item.preco | currency:'R$'}}" />-->
+                    <label>Preço</label>
+                    <input ng-model="item.preco" currency-mask />
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="">
